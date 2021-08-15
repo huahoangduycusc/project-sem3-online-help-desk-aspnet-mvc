@@ -1,0 +1,50 @@
+﻿@model IPagedList<eProjectHDO.Models.Severity>
+@{
+    ViewBag.Title = "cSeverity";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="panel-title"><h3>List of Severities</h3></div>
+<div class="col-6 col-sm-6" style="margin-top:10px">
+    <a href="@Url.Action("createSeverity","Admin")" class="button"><i class="fas fa-plus"></i> Create new</a>
+</div>
+<div class="row">
+    <div class="col-12 col-m-12">
+        <div class="card">
+            @if (Request.QueryString["conflict"] != null)
+            {
+            <div class="error center">You cannot delete this severity because it contains the relevant reference data</div>
+            }
+            <div class="card-header"><h3>List of Severities</h3></div>
+            <div class="card-content">
+                <table class="table-re">
+                    <tr>
+                    <th>Severity Name</th>
+                    <th>Description</th>
+                    <th>Operation</th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.SeverityName
+                                </td>
+                                <td>@item.Description</td>
+                                <td>
+                                    <a href="@Url.Action("editSeverity","Admin",new {id=item.SeverityId })" class="btn-circle bg-warning"><i class="fas fa-pen"></i></a>
+                                    <a href="@Url.Action("delSeverity","Admin",new {id=item.SeverityId })" class="btn-circle bg-danger" onclick="confirm('Are you sure to delete this Severity ?')"><i class="fas fa-times"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("cSeverity", "Admin", new { page }))
+    </div>
+</div>
+
+
+

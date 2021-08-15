@@ -1,0 +1,126 @@
+﻿@model eProjectHDO.Models.Baiviet
+@{
+    ViewBag.Title = Model.title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="background-black">
+    <div class="background-overlay"></div>
+    <div class="container">
+        <div class="background-title">
+            <h2>@Model.title</h2>
+            <p>
+                <a href="@Url.Action("Index","Home")">Home</a> / <a href="#">View Post</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center article-mg">
+            <h1 class="article-header">@Model.title</h1>
+            <div class="article-span">
+                <p>@Model.created_at</p>
+                <span>|</span>
+                <p style="font-weight:bold">@Model.author</p>
+                <span>|</span>
+                <p><i class="fas fa-eye"></i> @Model.view</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="article-background">
+            <img src="~/images/thumbnail/@Model.thumbnail" alt="">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1 col-m-2">
+            <div class="article-sticky">
+                <a href="http://www.facebook.com/sharer/sharer.php?u=@Request.Url.OriginalString&t=@Model.title" target="_blank" class="social primary-color">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="http://plus.google.com/share?url=@Request.Url.OriginalString" target="_blank" class="social danger-color">
+                    <i class="fab fa-google-plus-g"></i>
+                </a>
+                <a href="http://www.twitter.com/intent/tweet?url=@Request.Url.OriginalString&via=TWITTER_HANDLE_HERE&text=@Model.title" target="_blank" class="social warning-color">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-11 col-m-10">
+            <div class="article-content">
+                @Html.Raw(Model.description)
+                <br>
+            </div>
+            <div class="chat-box">
+                <h2 class="title-highlight">Comments</h2>
+                @if (Session["uid"] == null)
+                {
+                    <div class="warning">
+                        Please <a href="@Url.Action("Login","Home")">login</a> to CUSC to join the conversation!
+                    </div>
+                }
+                else
+                {
+                    using (Html.BeginForm("View", "Article", FormMethod.Post, new { id = @Model.id }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="your-comment">
+                            <div class="chat-avatar">
+                                <a href="@Url.Action("Index", "User", new { id = Session["uid"] })"><img src="~/images/profile/@Url.Content(Session["avatar"].ToString())" alt=""></a>
+                            </div>
+                            <div class="chat-text">
+                                <textarea name="message" id="message" rows="5" placeholder="leave a comment" required></textarea>
+                                <input type="submit" value="Post" class="btn-chat">
+                            </div>
+                        </div>
+
+                    }
+                    <!-- your comment -->
+                }
+                <div class="data-chat" id="chat">
+                    @{Html.RenderAction("getComment", "Article", new { id = @Model.id });}
+                </div>
+                @if (ViewData["demCmt"] != null && (int)ViewData["demCmt"] > 5)
+                {
+                    <div class="center"><a id="load-more" class="load-more">Load more</a></div>
+                }
+                <!-- data chat -->
+            </div>
+            <!-- chat box div -->
+        </div>
+    </div>
+</div>
+<script>
+var cmt = 5;
+var skip = 5;
+var flag = false;
+$(document).ready(function () {
+    $('#load-more').click(function () {
+        if (flag == true) {
+            return false;
+        }
+        flag = true;
+        $('#load-more').html("Loading..");
+        $.ajax({
+        url: '/Article/getComment',
+        type: 'get',
+        cache: false,
+        data: {
+            id: @Model.id,
+            skip : cmt
+        },
+        success: function (data) {
+        cmt += skip;
+        if (data == "") {
+        //alert("Hết dữ liệu");
+            $('#load-more').fadeOut();
+        }
+        //alert(cmt);
+        $('#chat').append(data);
+        $('#load-more').html("Load more");
+        flag = false;
+        }
+        });
+    });
+});
+</script>

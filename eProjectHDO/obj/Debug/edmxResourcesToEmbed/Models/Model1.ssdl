@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ohdModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Article">
+    <Key>
+      <PropertyRef Name="ArticleId" />
+    </Key>
+    <Property Name="ArticleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="varchar" MaxLength="100" />
+    <Property Name="description" Type="text" />
+    <Property Name="thumbnail" Type="varchar" MaxLength="250" />
+    <Property Name="categoryId" Type="int" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="view" Type="int" />
+    <Property Name="created_at" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="categoryName" Type="varchar" MaxLength="50" />
+    <Property Name="description" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="cms_contact">
+    <Key>
+      <PropertyRef Name="contact_id" />
+    </Key>
+    <Property Name="contact_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="from_user" Type="int" />
+    <Property Name="to_user" Type="int" />
+    <Property Name="message" Type="nvarchar" MaxLength="250" />
+    <Property Name="created_at" Type="datetime" />
+    <Property Name="mail_id" Type="int" />
+    <Property Name="status" Type="int" />
+  </EntityType>
+  <EntityType Name="cms_mail">
+    <Key>
+      <PropertyRef Name="mail_id" />
+    </Key>
+    <Property Name="mail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="from_user" Type="int" />
+    <Property Name="to_user" Type="int" />
+    <Property Name="created_at" Type="datetime" />
+  </EntityType>
+  <EntityType Name="comment">
+    <Key>
+      <PropertyRef Name="cmt_id" />
+    </Key>
+    <Property Name="cmt_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="article_id" Type="int" />
+    <Property Name="userId" Type="int" />
+    <Property Name="message" Type="varchar(max)" />
+    <Property Name="created_at" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Facility">
+    <Key>
+      <PropertyRef Name="FacilityId" />
+    </Key>
+    <Property Name="FacilityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FacilityName" Type="varchar" MaxLength="70" />
+    <Property Name="Description" Type="varchar" MaxLength="250" />
+    <Property Name="status" Type="int" />
+  </EntityType>
+  <EntityType Name="Feedback">
+    <Key>
+      <PropertyRef Name="fbId" />
+    </Key>
+    <Property Name="fbId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="varchar" MaxLength="150" />
+    <Property Name="description" Type="text" />
+    <Property Name="email" Type="varchar" MaxLength="70" />
+    <Property Name="status" Type="int" />
+    <Property Name="created_at" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="NotiId" />
+    </Key>
+    <Property Name="NotiId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="message" Type="text" />
+    <Property Name="status" Type="int" />
+    <Property Name="userId" Type="int" />
+    <Property Name="created_at" Type="datetime" />
+    <Property Name="requestId" Type="int" />
+  </EntityType>
+  <EntityType Name="Questionnaire">
+    <Key>
+      <PropertyRef Name="qId" />
+    </Key>
+    <Property Name="qId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="question" Type="varchar" MaxLength="100" />
+    <Property Name="answer" Type="varchar" MaxLength="250" />
+    <Property Name="author" Type="int" />
+    <Property Name="created_at" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Request">
+    <Key>
+      <PropertyRef Name="RequestId" />
+    </Key>
+    <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="varchar" MaxLength="50" />
+    <Property Name="description" Type="text" />
+    <Property Name="severity" Type="int" />
+    <Property Name="requestor" Type="int" />
+    <Property Name="facility" Type="int" />
+    <Property Name="typefacility" Type="int" />
+    <Property Name="assigned" Type="int" />
+    <Property Name="status" Type="int" />
+    <Property Name="remarks" Type="varchar" MaxLength="250" />
+    <Property Name="created_at" Type="datetime" />
+    <Property Name="block" Type="int" />
+  </EntityType>
+  <EntityType Name="RequestUpdated">
+    <Key>
+      <PropertyRef Name="UpdateId" />
+    </Key>
+    <Property Name="UpdateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="requestStatus" Type="varchar" MaxLength="70" />
+    <Property Name="remarks" Type="varchar" MaxLength="250" />
+    <Property Name="created_at" Type="datetime" />
+    <Property Name="RequestId" Type="int" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Severity">
+    <Key>
+      <PropertyRef Name="SeverityId" />
+    </Key>
+    <Property Name="SeverityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SeverityName" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="StatusId" />
+    </Key>
+    <Property Name="StatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StatusName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TypeOfFacility">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="varchar" MaxLength="100" />
+    <Property Name="Status" Type="int" />
+    <Property Name="Facility" Type="int" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="20" />
+    <Property Name="password" Type="varchar" MaxLength="250" />
+    <Property Name="fullname" Type="varchar" MaxLength="50" />
+    <Property Name="gender" Type="bit" />
+    <Property Name="address" Type="varchar" MaxLength="50" />
+    <Property Name="phone" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="birthday" Type="date" />
+    <Property Name="favorite" Type="varchar" MaxLength="50" />
+    <Property Name="role" Type="int" />
+    <Property Name="facility" Type="int" />
+    <Property Name="avatar" Type="varchar" MaxLength="250" />
+    <Property Name="timeJoin" Type="datetime" />
+    <Property Name="status" Type="int" />
+  </EntityType>
+  <Association Name="FK__Article__categor__73BA3083">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Article" Type="Self.Article" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Article">
+        <PropertyRef Name="categoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Article__UserId__74AE54BC">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Article" Type="Self.Article" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Article">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__cms_conta__mail___5FB337D6">
+    <End Role="cms_mail" Type="Self.cms_mail" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="cms_contact" Type="Self.cms_contact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cms_mail">
+        <PropertyRef Name="mail_id" />
+      </Principal>
+      <Dependent Role="cms_contact">
+        <PropertyRef Name="mail_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__cms_mail__from_u__59FA5E80">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="cms_mail" Type="Self.cms_mail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="cms_mail">
+        <PropertyRef Name="from_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__comment__article__55009F39">
+    <End Role="Article" Type="Self.Article" Multiplicity="0..1" />
+    <End Role="comment" Type="Self.comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Article">
+        <PropertyRef Name="ArticleId" />
+      </Principal>
+      <Dependent Role="comment">
+        <PropertyRef Name="article_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__comment__userId__55F4C372">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="comment" Type="Self.comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="comment">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Notificat__reque__4C6B5938">
+    <End Role="Request" Type="Self.Request" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request">
+        <PropertyRef Name="RequestId" />
+      </Principal>
+      <Dependent Role="Notification">
+        <PropertyRef Name="requestId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Request__request__4F47C5E3">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="requestor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Request__severit__503BEA1C">
+    <End Role="Severity" Type="Self.Severity" Multiplicity="0..1" />
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Severity">
+        <PropertyRef Name="SeverityId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="severity" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Request__status__4E53A1AA">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="StatusId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Request__typefac__51300E55">
+    <End Role="TypeOfFacility" Type="Self.TypeOfFacility" Multiplicity="0..1" />
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeOfFacility">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="typefacility" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RequestUp__Reque__4D5F7D71">
+    <End Role="Request" Type="Self.Request" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="RequestUpdated" Type="Self.RequestUpdated" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request">
+        <PropertyRef Name="RequestId" />
+      </Principal>
+      <Dependent Role="RequestUpdated">
+        <PropertyRef Name="RequestId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TypeOfFac__Facil__5224328E">
+    <End Role="Facility" Type="Self.Facility" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TypeOfFacility" Type="Self.TypeOfFacility" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Facility">
+        <PropertyRef Name="FacilityId" />
+      </Principal>
+      <Dependent Role="TypeOfFacility">
+        <PropertyRef Name="Facility" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Users__role__6EF57B66">
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ohdModelStoreContainer">
+    <EntitySet Name="Article" EntityType="Self.Article" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cms_contact" EntityType="Self.cms_contact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cms_mail" EntityType="Self.cms_mail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Facility" EntityType="Self.Facility" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Questionnaire" EntityType="Self.Questionnaire" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RequestUpdated" EntityType="Self.RequestUpdated" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Severity" EntityType="Self.Severity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypeOfFacility" EntityType="Self.TypeOfFacility" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Article__categor__73BA3083" Association="Self.FK__Article__categor__73BA3083">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Article" EntitySet="Article" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Article__UserId__74AE54BC" Association="Self.FK__Article__UserId__74AE54BC">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Article" EntitySet="Article" />
+    </AssociationSet>
+    <AssociationSet Name="FK__cms_conta__mail___5FB337D6" Association="Self.FK__cms_conta__mail___5FB337D6">
+      <End Role="cms_mail" EntitySet="cms_mail" />
+      <End Role="cms_contact" EntitySet="cms_contact" />
+    </AssociationSet>
+    <AssociationSet Name="FK__cms_mail__from_u__59FA5E80" Association="Self.FK__cms_mail__from_u__59FA5E80">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="cms_mail" EntitySet="cms_mail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__comment__article__55009F39" Association="Self.FK__comment__article__55009F39">
+      <End Role="Article" EntitySet="Article" />
+      <End Role="comment" EntitySet="comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__comment__userId__55F4C372" Association="Self.FK__comment__userId__55F4C372">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="comment" EntitySet="comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Notificat__reque__4C6B5938" Association="Self.FK__Notificat__reque__4C6B5938">
+      <End Role="Request" EntitySet="Request" />
+      <End Role="Notification" EntitySet="Notification" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Request__request__4F47C5E3" Association="Self.FK__Request__request__4F47C5E3">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Request__severit__503BEA1C" Association="Self.FK__Request__severit__503BEA1C">
+      <End Role="Severity" EntitySet="Severity" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Request__status__4E53A1AA" Association="Self.FK__Request__status__4E53A1AA">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Request__typefac__51300E55" Association="Self.FK__Request__typefac__51300E55">
+      <End Role="TypeOfFacility" EntitySet="TypeOfFacility" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RequestUp__Reque__4D5F7D71" Association="Self.FK__RequestUp__Reque__4D5F7D71">
+      <End Role="Request" EntitySet="Request" />
+      <End Role="RequestUpdated" EntitySet="RequestUpdated" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TypeOfFac__Facil__5224328E" Association="Self.FK__TypeOfFac__Facil__5224328E">
+      <End Role="Facility" EntitySet="Facility" />
+      <End Role="TypeOfFacility" EntitySet="TypeOfFacility" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Users__role__6EF57B66" Association="Self.FK__Users__role__6EF57B66">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,39 @@
+﻿@model eProjectHDO.Models.Category
+@{
+    ViewBag.Title = "Edit Category";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+
+<div class="panel-title"><h3>Edit Category</h3></div>
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm())
+        {
+            if (ViewBag.Msg != null)
+            {
+                <div class="error">@ViewBag.Msg</div>
+            }
+            if (ViewBag.Success != null)
+            {
+                <div class="success">@ViewBag.Success</div>
+            }
+            <div class="box-input">
+                <p>Category Name : </p>
+                @Html.TextBoxFor(m => m.categoryName, "", new { @class = "form-control", required = "required" })
+            </div>
+            <div class="box-input">
+                <p>Category Name : </p>
+                @Html.TextAreaFor(m => m.description, 5, 5,new {@class="form-control",required="required" })
+            </div>
+            <!-- end input -->
+            <div class="box-input">
+                <div class="center">
+                    <button type="submit" class="btn btn-create">Update</button>
+                </div>
+            </div>
+        }
+    </div>
+    <a href="@Url.Action("cCategory")" class="back">Back to List</a>
+    <!-- end col 12 -->
+</div>
+<!-- end row -->

@@ -1,0 +1,12 @@
+﻿@model IEnumerable<eProjectHDO.Models.Category>
+@if(Model.Count() != 0)
+{
+    <ul class="sub-menu">
+        @foreach (var item in Model)
+        {
+            <li>
+                <a href="@Url.Action("Category","Home",new {id=item.CategoryId})">@item.categoryName</a>
+            </li>
+        }
+    </ul>
+}

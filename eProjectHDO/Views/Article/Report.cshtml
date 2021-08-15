@@ -1,0 +1,48 @@
+﻿@model IEnumerable<eProjectHDO.Models.Baiviet>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PrintReport</title>
+    <link rel="stylesheet" href="~/Content/admin.css" type="text/css">
+</head>
+<body>
+    <div class="row">
+        <div class="center"><h1>Statistics</h1></div>
+        <div class="col-12 col-m-12">
+            <div class="card">
+                <div class="card-content">
+                    <table class="table-re">
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>View</th>
+                            <th>Created at</th>
+                        </tr>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="width:80px;"><img src="~/images/thumbnail/@item.thumbnail" style="width:100%" /></td>
+                                    <td>
+                                        <a href="@Url.Action("View","Article",new {id=item.id })">@item.title</a>
+                                    </td>
+                                    <td><a href="@Url.Action("Index","User",new {id=item.userId })">@item.author</a></td>
+                                    <td>@item.view</td>
+                                    <td>@item.created_at</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

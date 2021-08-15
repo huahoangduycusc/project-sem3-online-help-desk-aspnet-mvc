@@ -1,0 +1,93 @@
+﻿@model IPagedList<eProjectHDO.Models.User>
+@{
+    ViewBag.Title = "userInFacility";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="panel-title"><h3>List of Users in facility</h3></div>
+<div class="row">
+    <div class="form-search">
+        <form action="@Url.Action("Search","Panel")" method="get">
+            <div class="search-input">
+                <input type="text" name="s" placeholder="Search">
+                <button type="submit"><i class="fas fa-search"></i></button>
+                <div class="row type-radio">
+                    <p><input type="radio" name="type" value="0" checked> Username</p>
+                    <p><input type="radio" name="type" value="1"> Name</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-m-12">
+        <div class="card">
+            <div class="card-header"><h3>List of Users in facility</h3></div>
+            <div class="card-content">
+                <table class="table-re">
+                    <tr>
+                    <th>Avatar</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Fullname</th>
+                    <th>Gender</th>
+                    <th>Role</th>
+                    <th>Operation</th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Index","User",new {id=item.UserId })"><img src="~/images/profile/@item.avatar" class="td-avatar"></a>
+                                </td>
+                                <td><a href="@Url.Action("Index","User",new {id=item.UserId })">@item.username</a></td>
+                                <td><a href="mailto:@item.email">@item.email</a></td>
+                                <td>@item.fullname</td>
+                                <td>
+                                    @{
+                                        if (item.gender == false)
+                                        {
+                                            <span>Male</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Female</span>
+                                        }
+                                }
+                            </td>
+                            <td>
+                                @{
+                                    if (item.role == 1)
+                                    {
+                                        <span style="color:#4582af;font-size:12pt;font-weight:bold">Member</span>
+                                    }
+                                    else if (item.role == 2)
+                                    {
+                                        <span style="color:#9932CC;font-size:12pt;font-weight:bold">Assigned-person</span>
+                                    }
+                                    else if (item.role == 3)
+                                    {
+                                        <span style="color:green;font-size:12pt;font-weight:bold">Facility-heads</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:#ff5159;font-size:12pt;font-weight:bold">Admin</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Index","User",new {id=item.UserId })" class="btn-circle bg-success"><i class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("userInFacility", "Panel", new { page }))
+    </div>
+</div>
+
+

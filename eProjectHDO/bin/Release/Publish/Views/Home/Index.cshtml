@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (Session.Count > 0 && Session["username"].ToString() != "")
+{
+    <div class="box-welcome">
+        <div class="welcome-avatar">
+            <a href="@Url.Action("Index","User",new {id=Session["uid"] })" class="avatar-obj">
+                <img src="/images/profile/@Session["avatar"]" alt="">
+                <p>@Session["username"]</p>
+            </a>
+        </div>
+        <div class="welcome-request">
+            <a href="@Url.Action("Create","Request")" class="btn-request">
+                <i class="fas fa-retweet"></i> Create request
+            </a>
+        </div>
+    </div>
+}
+<!-- end box welcome -->
+<div class="slides">
+    <div class="caseroul">
+        <img src="https://aptech.cusc.vn/DesktopModules/CUSC_SLIDE/HinhSlide/2020-10-06%20web%20aptech.jpg" alt="">
+        <img src="https://aptech.cusc.vn/DesktopModules/CUSC_SLIDE/HinhSlide/web%20aptech%204.jpg" alt="">
+        <img src="https://aptech.cusc.vn/DesktopModules/CUSC_SLIDE/HinhSlide/web%20aptech%202.jpg" alt="">
+        <img src="https://aptech.cusc.vn/DesktopModules/CUSC_SLIDE/HinhSlide/web%20aptech%206.jpg" alt="">
+    </div>
+</div>
+<!-- end slides -->
+<div class="gallery">
+    <div class="container">
+        <div class="row">
+            <h2 class="section-title">Gallery</h2>
+            <p class="section-sub-title">
+                The learning environment at CUSC
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-m-4 col-sm-6">
+                <img src="~/images/gallery/1.jpg" alt="">
+            </div>
+            <div class="col-m-4 col-sm-6">
+                <img src="~/images/gallery/2.jpg" alt="">
+            </div>
+            <div class="col-m-4 col-sm-6">
+                <img src="~/images/gallery/3.jpg" alt="">
+            </div>
+            <div class="col-m-4 col-sm-6">
+                <img src="~/images/gallery/1.jpg" alt="">
+            </div>
+            <div class="col-m-4 col-sm-6">
+                <img src="~/images/gallery/4.jpg" alt="">
+            </div>
+            <div class="col-m-4 col-sm-6">
+                <img src="~/images/gallery/5.jpg" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end gallery -->
+<div class="introduce">
+    <div class="introduce-bg"></div>
+    <div class="introduce-cusc">
+        <div class="container">
+            <h1 class="head-title">
+                WHAT ABOUT CUSC ?
+            </h1>
+        </div>
+    </div>
+    <div class="cusc-text">
+        <div class="container">
+            Established on March 29, 2001 by Decision No. 1574 / QD-BGD & DT-TCCB, Can Tho University Software Technology Center (CUSC) is the first software center in the Mekong Delta region, life to meet the needs of professional programmers training, software development and IT application in all aspects of social life.
+            <br>
+            CUSC wants to become a reliable partner, an organization that develops on the basis of knowledge and technology, contributing to the rapid, rapid development of the economy and knowledge education in the region and the country, for each of its members to develop the best conditions, complete physically and mentally.
+        </div>
+
+    </div>
+</div>
+<!-- end introduce -->
+<div class="section-post container">
+    <div class="ribbon ribbon-top-right">
+        <span class="danger-color">Announcements</span>
+    </div>
+    <div class="label-head"></div>
+    @{Html.RenderAction("displayArticle","Article",new {id=20 }); }
+</div>
+<!-- end section post -->
+<div class="section-post container">
+    <div class="ribbon ribbon-top-right">
+        <span class="warning-color">NEWS</span>
+    </div>
+    <div class="label-head-3"></div>
+    @{Html.RenderAction("displayNewsArticle", "Article"); }
+    <div class="row">
+        <div class="col-8 col-m-8"></div>
+        <div class="col-4 com-m-4">
+            @{ Html.RenderAction("displayCategory", "Home");}
+        </div>
+    </div>
+</div>

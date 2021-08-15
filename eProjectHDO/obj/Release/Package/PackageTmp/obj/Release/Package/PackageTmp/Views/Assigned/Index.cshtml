@@ -1,0 +1,273 @@
+﻿@model IPagedList<eProjectHDO.Models.RequestUser>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_admin.cshtml";
+    int type = 0;
+    if (Request.QueryString["type"] == null)
+    {
+        type = 0;
+    }
+    else
+    {
+        type = Convert.ToInt32(Request.QueryString["type"]);
+    }
+}
+@using PagedList;
+@using PagedList.Mvc;
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<div class="row">
+    <div class="coso">
+        Type of facility : @TempData["facility"]
+    </div>
+</div>
+<div class="row">
+    <div class="col-3 col-m-6 col-sm-6">
+        <div class="counter bg-primary">
+            <p><i class="fas fa-tasks"></i></p>
+            <h3>@TempData["toDo"]+</h3>
+            <p>To do</p>
+        </div>
+    </div>
+    <div class="col-3 col-m-6 col-sm-6">
+        <div class="counter bg-warning">
+            <p><i class="fas fa-spinner"></i></p>
+            <h3>@TempData["inProcess"]+</h3>
+            <p>In proccess</p>
+        </div>
+    </div>
+    <div class="col-3 col-m-6 col-sm-6">
+        <div class="counter bg-success">
+            <p><i class="fas fa-check-circle"></i></p>
+            <h3>@TempData["completed"]+</h3>
+            <p>Completed</p>
+        </div>
+    </div>
+    <div class="col-3 col-m-6 col-sm-6">
+        <div class="counter bg-danger">
+            <p><i class="fas fa-bug"></i></p>
+            <h3>@TempData["issues"]+</h3>
+            <p>Issue</p>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+<div class="row">
+    <div class="col-6">
+        <div class="filter">
+            <span class="filter-span">Filter your request</span>
+            <select name="filter" id="filter" class="form-sm-control">
+                <option value="">--Select--</option>
+                <option value="0">All</option>
+                <option value="5">Work in process</option>
+                <option value="6">Need more info</option>
+                <option value="7">Reject</option>
+                <option value="8">Resolved</option>
+
+            </select>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>List of requests are assigned to you</h3>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="card-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Severity</th>
+                            <th>Requestor</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><a href="@Url.Action("See","Request",new {id=item.requestId })">@item.requestTitle</a></td>
+                                <td>@item.type</td>
+                                <td><span class="severity">@item.severity</span></td>
+                                <td><a href="@Url.Action("Index","User",new {id=item.userId })">@item.username</a></td>
+                                <td>
+                                    <span class="dot">
+                                        @if (item.status == "Assigned" || item.status == "Unassigned")
+                                        {
+                                            <i class="bg-primary"></i>
+                                        }
+                                        @if (item.status == "Work in process" || item.status == "Need more info")
+                                        {
+                                            <i class="bg-warning"></i>
+                                        }
+                                        @if (item.status == "Resolved")
+                                        {
+                                            <i class="bg-success"></i>
+                                        }
+                                        @if (item.status == "Rejected")
+                                        {
+                                            <i class="bg-danger"></i>
+                                        }
+                                        @item.status
+                                    </span>
+                                </td>
+                                <td>@item.created_at</td>
+                                <td>
+                                    <a href="" class="btn-circle bg-success view" data-id="@item.requestId"><i class="fas fa-eye"></i></a>
+                                    <a href="" class="btn-circle bg-warning update" data-as="@item.requestId"><i class="fas fa-sync-alt"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("Index", "Assigned", new { page,type=type }))
+    </div>
+    <!-- end col -->
+</div>
+<div class="feedback-container">
+    <div class="feedback-fixed">
+        @using (Html.BeginForm("updateStatus", "Assigned", FormMethod.Post, new { id = "update_submit" }))
+        {
+            <div class="feedback-title">Update status</div>
+            <div class="feedback-txt">
+                <p>Status: </p>
+                <select name="status" id="status" class="select-control">
+                    <option value="5">Work in process</option>
+                    <option value="6">Need more info</option>
+                    <option value="7">Rejected</option>
+                    <option value="8">Resolved</option>
+                </select>
+            </div>
+            <div class="feedback-txt">
+                <p>Remarks: </p>
+                <textarea rows="5" name="remarks" id="remarks"></textarea>
+                <input type="hidden" name="rq" id="rq">
+            </div>
+            <div class="feedback-submit">
+                <button type="submit" id="btnRe">Confirm</button>
+            </div>
+            <a href="" class="close"><i class="fas fa-times"></i></a>
+        }
+    </div>
+    <div class="sign-owner">
+        <p>Design by</p>
+        <img src="~/images/duy.png" alt="">
+    </div>
+</div>
+<div class="phanhoi-container">
+    <div class="phanhoi-form">
+        <div class="phanhoi-title">
+            <img src="~/images/request.png" alt="">
+        </div>
+        <div class="phanhoi-bg">
+            <h2><span id="title">Hua Hoang Duy</span> <span class="severity" id="severity">Medium</span></h2>
+            <div class="phanhoi-body">
+                <div class="phanhoi-author">
+                    <p>Assigned person: <a href="" id="assigned">clanchangthanh</a></p>
+                    <p>Requestor: <a href="" id="requestor">hoangduy</a></p>
+                </div>
+                <div class="phanhoi-more">
+                    <p>Facility: <span class="facility" id="facility">Canteen</span></p>
+                    <p>Status: <span class="status" id="status1">Work in process</span></p>
+                </div>
+                <div class="phanhoi-text" id="description">
+                    Text
+                </div>
+                <p class="phanhoi-time" id="times">
+                    Semt 22, 2020
+                </p>
+            </div>
+            <div class="close-phanhoi"><i class="fas fa-times"></i></div>
+        </div>
+    </div>
+</div>
+<script>
+    var chidinh = document.querySelectorAll('.update');
+    chidinh.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            $('#rq').val(item.getAttribute('data-as'));
+            feedback.classList.toggle("actives");
+        });
+    });
+</script>
+<script>
+    var flag = false; // tránh click nhiều lần
+    $('#update_submit').submit(function () {
+        if (flag == true) {
+            alert('Please, waiting a moment after the system handling'); // wait
+        }
+        flag = true;
+        $('#btnRe').html('Waiting ...');
+        var id = $('#rq').val(); // get request id
+        var status = $('#status').val();
+        var remarks = $('#remarks').val(); // get remarks
+        //alert("Bạn vừa click");
+        $.ajax({
+            url: '/Assigned/updateStatus',
+            type: 'post',
+            cache: false,
+            data: {
+                id: id,
+                status: status,
+                remarks: remarks
+            },
+            success: function (result) { // success
+                $('#btnRe').html('Confirm');
+                if (result.success != "") { // success
+                    feedback.classList.remove("actives");
+                    swal("Success!", "The request was updated!", "success");
+                }
+                flag = false;
+            },
+            error: function () {
+                alert("Process handle occur error, please try it again !"); // error
+            }
+        });
+        return false;
+    });
+</script>
+<script>
+    var view_fb = document.querySelectorAll('.view');
+    view_fb.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            var fb_id = item.getAttribute('data-id');
+            //alert(fb_id);
+            $.ajax({
+                url: '/Panel/viewRequest',
+                type: 'get',
+                cache: false,
+                data: {
+                    id: fb_id
+                },
+                success: function (result) {
+                    $('#title').html(result.title);
+                    $('#description').html(result.description);
+                    $('#facility').html(result.facility);
+                    $('#assigned').html(result.person);
+                    $('#requestor').html(result.username);
+                    $('#severity').html(result.severity);
+                    $('#status1').html(result.status);
+                    $('#times').html(result.times);
+                    $('.phanhoi-container').addClass('actives-phanhoi');
+                },
+                error: function () {
+                    alert("There are something wrong, Duy ?");
+                }
+            });
+        });
+    });
+</script>
+<script>
+    document.getElementById("filter").onchange = function (event) {
+        let type = this.value;
+        window.location.href = '/Assigned/Index?type=' + type;
+    };
+</script>

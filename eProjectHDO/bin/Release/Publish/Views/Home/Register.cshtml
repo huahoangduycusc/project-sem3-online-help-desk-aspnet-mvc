@@ -1,0 +1,72 @@
+﻿@model eProjectHDO.Models.User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to the system</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/login.css" type="text/css">
+
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <a href="@Url.Action("Index","Home")">
+                <img src="/images/logo.png" alt="">
+            </a>
+        </div>
+        <div class="form-login">
+            @using (Html.BeginForm())
+            {
+                <p class="title-login center">ONLINE HELP DESK</p>
+                <p class="title-login center">Create your account</p>
+                if (ViewBag.Msg != null)
+                {
+                    <div class="error">
+                        @ViewBag.Msg
+                    </div>
+                }
+                @Html.ValidationMessageFor(m => m.username, "", new { @class = "error" })
+                @Html.ValidationMessageFor(m => m.password, "", new { @class = "error" })
+                @Html.ValidationMessageFor(m => m.email, "", new { @class = "error" })
+                <div class="form-field active">
+                    @Html.TextBoxFor(m => m.username, "", new { required = "required" })
+                    <label for="">Username</label>
+                </div>
+                <div class="form-field active">
+                    @Html.TextBoxFor(m => m.email, "", new { type = "email", required = "required" })
+                    <label for="">Email</label>
+                </div>
+                <div class="form-field active">
+                    @Html.TextBoxFor(m => m.password, "", new { type = "password", required = "required" })
+                    <label for="">Password</label>
+                </div>
+                <div class="form-field active">
+                    @Html.TextBoxFor(m => m.fullname, "", new { required = "required" })
+                    <label for="">Full name</label>
+                </div>
+                <div class="form-field active">
+                    <i>Gender : </i>
+                    <select name="gender" class="select">
+                        <option value="false">Male</option>
+                        <option value="true">Female</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <button type="submit">Create account</button>
+                </div>
+                <div class="center end">
+                    2020 © All rights reserved
+                </div>
+            }
+        </div>
+    </div>
+    <script src="~/Scripts/login.js"></script>
+</body>
+</html>

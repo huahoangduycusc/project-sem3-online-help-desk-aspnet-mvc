@@ -1,0 +1,90 @@
+﻿@model eProjectHDO.Models.User
+@{
+    ViewBag.Title = "Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="background-black">
+    <div class="background-overlay"></div>
+    <div class="container">
+        <div class="background-title">
+            <h2>Modify personal information</h2>
+            <p>
+                <a href="">Home</a> / <a href="@Url.Action("Index","User",new {id=Model.UserId })">Profile</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="profile-container">
+        <div class="avatar-profile">
+            <img src="~/images/profile/@Model.avatar" title="@Model.username">
+        </div>
+        @using (Html.BeginForm("Setting","User",FormMethod.Post,new {enctype="multipart/form-data" }))
+        {
+            if(TempData["msg"] != null)
+            {
+                <div class="error">@TempData["msg"]</div>
+            }
+            if(ViewBag.msg != null)
+            {
+                <div class="success">@ViewBag.Msg</div>
+            }
+            <table class="profile-table">
+                <tbody>
+                    <tr>
+                        <td class="td-left">ID</td>
+                        <td class="td-right">@Model.username</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left">Full Name</td>
+                        <td class="td-right">@Html.TextBoxFor(m => m.fullname, "", new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left">Gender</td>
+                        <td class="td-right">
+                            @Html.DropDownListFor(m => m.gender, new List<SelectListItem> {
+                   new SelectListItem(){Text="Male",Value="false"},
+                   new SelectListItem(){Text="Female",Value="true"}
+                   }, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-left">Date of birth</td>
+                        <td class="td-right">@Html.EditorFor(model => model.birthday, new { htmlAttributes = new { @class = "form-control", type = "date" } })</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left">Favourite</td>
+                        <td class="td-right">@Html.TextAreaFor(m => m.favorite, 5, 5, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left">Phone</td>
+                        <td class="td-right">@Html.TextBoxFor(m => m.phone, "", new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left">Address</td>
+                        <td class="td-right">@Html.TextBoxFor(m => m.address, "", new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left">Email</td>
+                        <td class="td-right">@Html.TextBoxFor(m => m.email, "", new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left">Avatar</td>
+                        <td class="td-right">@Html.TextBoxFor(m => m.avatar, "", new { @class = "form-control", type = "file" })</td>
+                    </tr>
+                    <tr>
+                        <td class="td-right" colspan="2" style="text-align:center">
+                            <button type="submit" class="btn btn-green">Update</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <div class="profile-center" style="text-align:center;">
+            <div class="btn-group">
+                <a href="@Url.Action("Index","User",new {id=Model.UserId })" class="btn-profile"><i class="fas fa-backward"></i> Back</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<eProjectHDO.Models.countCategory>
+
+@if(Model != null)
+{
+    <div class="div-relative">
+        <div class="category">
+            <span class="primary-color">CATEGORY</span>
+        </div>
+        <div class="label-head-2"></div>
+        <br>
+        <div class="list-category">
+            @foreach (var item in Model)
+            {
+                <a href="@Url.Action("Category","Home",new {id=item.id })" class="list-item">@item.title <span class="float-right">(@item.article)</span></a>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<div class="row">
+    <div class="coso">
+        Type of facility : @TempData["facility"]
+    </div>
+</div>
+@using(Html.BeginForm("PrintReport","Panel",FormMethod.Get))
+{
+<div class="row">
+    <div class="col-4">
+        <b>Facility</b>
+        @Html.DropDownList("type", new SelectList((System.Collections.IEnumerable)TempData["typeOfFacility"], "TypeId", "TypeName"), new { @class = "form-sm-control" })
+    </div>
+    <div class="col-4">
+        From date: <input type="date" name="tu" id="tu" class="form-sm-control" required>
+    </div>
+    <div class="col-4">
+        To date : <input type="date" name="den" id="den" class="form-sm-control" required>
+    </div>
+    <div class="col-4">
+        <b>Status</b>
+        @Html.DropDownList("status", new SelectList((System.Collections.IEnumerable)TempData["status"], "StatusId", "StatusName"), new { @class = "form-sm-control" })
+    </div>
+    <div class="col-4">
+        <button type="button" class="btn btn-create" id="send"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="col-4">
+        <button type="submit" class="btn btn-create bg-danger"><i class="fas fa-print"></i> Print</button>
+    </div>
+</div>
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>List of requests</h3>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="card-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Request Title</th>
+                            <th>Facility</th>
+                            <th>Severity</th>
+                            <th>Requestor</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Assigned</th>
+                        </tr>
+                    </thead>
+                    <tbody id="result">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <!-- end col -->
+</div>
+<script>
+    $(document).ready(function () {
+        $html = '<option value="0">All</option>';
+        $('#type').append($html);
+        $('#status').append($html);
+    });
+</script>
+<script>
+    var btn = document.querySelector("#send");
+    btn.addEventListener('click', function () {
+        var from = document.querySelector("#tu");
+        var to = document.querySelector("#den");
+        var type = document.querySelector('#type');
+        var status = document.querySelector('#status');
+        if (to.value == "" || from.value == "") {
+            alert("Please, choose from date and to date");
+            return false;
+        }
+        $("#result").empty();
+        $("#result").html("<tr></tr><tr><td colspan=\"7\" style=\"text-align:center;\"><img src=\"https://www.ihrp.sg/wp-content/uploads/2019/06/giphy.gif\" style='width:150px'></td></tr>");
+        //alert("Từ " + from.value +"đến " + to.value);
+        $.ajax({
+            url: '/Panel/resultReport',
+            type: 'get',
+            cache: false,
+            data: {
+                type: type.value,
+                status: status.value,
+                tu: from.value,
+                den: to.value
+            },
+            success: function (data) {
+                //alert(data);
+                $("#result").empty();
+                $("#result").append(data);
+            }
+        });
+    });
+</script>

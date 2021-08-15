@@ -1,0 +1,500 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ohdModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ohdEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Articles" EntityType="ohdModel.Article" />
+    <EntitySet Name="Categories" EntityType="ohdModel.Category" />
+    <EntitySet Name="Facilities" EntityType="ohdModel.Facility" />
+    <EntitySet Name="Severities" EntityType="ohdModel.Severity" />
+    <EntitySet Name="Status" EntityType="ohdModel.Status" />
+    <AssociationSet Name="FK__Article__categor__4F7CD00D" Association="ohdModel.FK__Article__categor__4F7CD00D">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Article" EntitySet="Articles" />
+    </AssociationSet>
+    <EntitySet Name="RequestUpdateds" EntityType="ohdModel.RequestUpdated" />
+    <EntitySet Name="cms_contact" EntityType="ohdModel.cms_contact" />
+    <EntitySet Name="cms_mail" EntityType="ohdModel.cms_mail" />
+    <AssociationSet Name="FK__cms_conta__mail___5FB337D6" Association="ohdModel.FK__cms_conta__mail___5FB337D6">
+      <End Role="cms_mail" EntitySet="cms_mail" />
+      <End Role="cms_contact" EntitySet="cms_contact" />
+    </AssociationSet>
+    <EntitySet Name="Users" EntityType="ohdModel.User" />
+    <AssociationSet Name="FK__Article__UserId__571DF1D5" Association="ohdModel.FK__Article__UserId__571DF1D5">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Article" EntitySet="Articles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__cms_mail__from_u__59FA5E80" Association="ohdModel.FK__cms_mail__from_u__59FA5E80">
+      <End Role="User" EntitySet="Users" />
+      <End Role="cms_mail" EntitySet="cms_mail" />
+    </AssociationSet>
+    <EntitySet Name="Questionnaires" EntityType="ohdModel.Questionnaire" />
+    <EntitySet Name="Roles" EntityType="ohdModel.Role" />
+    <AssociationSet Name="FK__Users__role__6EF57B66" Association="ohdModel.FK__Users__role__6EF57B66">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="Requests" EntityType="ohdModel.Request" />
+    <AssociationSet Name="FK__Request__facilit__66603565" Association="ohdModel.FK__Request__facilit__66603565">
+      <End Role="Facility" EntitySet="Facilities" />
+      <End Role="Request" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Request__request__5629CD9C" Association="ohdModel.FK__Request__request__5629CD9C">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Request" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Request__severit__6FE99F9F" Association="ohdModel.FK__Request__severit__6FE99F9F">
+      <End Role="Severity" EntitySet="Severities" />
+      <End Role="Request" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RequestUp__Reque__48CFD27E" Association="ohdModel.FK__RequestUp__Reque__48CFD27E">
+      <End Role="Request" EntitySet="Requests" />
+      <End Role="RequestUpdated" EntitySet="RequestUpdateds" />
+    </AssociationSet>
+    <EntitySet Name="Notifications" EntityType="ohdModel.Notification" />
+    <AssociationSet Name="FK__Notificat__reque__7C4F7684" Association="ohdModel.FK__Notificat__reque__7C4F7684">
+      <End Role="Request" EntitySet="Requests" />
+      <End Role="Notification" EntitySet="Notifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Notificat__userI__7B5B524B" Association="ohdModel.FK__Notificat__userI__7B5B524B">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Notification" EntitySet="Notifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Request__status__0A9D95DB" Association="ohdModel.FK__Request__status__0A9D95DB">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="Request" EntitySet="Requests" />
+    </AssociationSet>
+    <EntitySet Name="Feedbacks" EntityType="ohdModel.Feedback" />
+    <EntitySet Name="TypeOfFacilities" EntityType="ohdModel.TypeOfFacility" />
+    <AssociationSet Name="FK__TypeOfFac__Facil__160F4887" Association="ohdModel.FK__TypeOfFac__Facil__160F4887">
+      <End Role="Facility" EntitySet="Facilities" />
+      <End Role="TypeOfFacility" EntitySet="TypeOfFacilities" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Request__typefac__1F98B2C1" Association="ohdModel.FK__Request__typefac__1F98B2C1">
+      <End Role="TypeOfFacility" EntitySet="TypeOfFacilities" />
+      <End Role="Request" EntitySet="Requests" />
+    </AssociationSet>
+    <EntitySet Name="comments" EntityType="ohdModel.comment" />
+    <AssociationSet Name="FK__comment__article__55009F39" Association="ohdModel.FK__comment__article__55009F39">
+      <End Role="Article" EntitySet="Articles" />
+      <End Role="comment" EntitySet="comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__comment__userId__55F4C372" Association="ohdModel.FK__comment__userId__55F4C372">
+      <End Role="User" EntitySet="Users" />
+      <End Role="comment" EntitySet="comments" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Article">
+    <Key>
+      <PropertyRef Name="ArticleId" />
+    </Key>
+    <Property Name="ArticleId" Type="Int32" Nullable="false" />
+    <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="thumbnail" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="categoryId" Type="Int32" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="view" Type="Int32" />
+    <Property Name="created_at" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Category" Relationship="ohdModel.FK__Article__categor__4F7CD00D" FromRole="Article" ToRole="Category" />
+    <NavigationProperty Name="User" Relationship="ohdModel.FK__Article__UserId__571DF1D5" FromRole="Article" ToRole="User" />
+    <NavigationProperty Name="comments" Relationship="ohdModel.FK__comment__article__55009F39" FromRole="Article" ToRole="comment" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="categoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Articles" Relationship="ohdModel.FK__Article__categor__4F7CD00D" FromRole="Category" ToRole="Article" />
+    <Property Name="description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Facility">
+    <Key>
+      <PropertyRef Name="FacilityId" />
+    </Key>
+    <Property Name="FacilityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FacilityName" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Requests" Relationship="ohdModel.FK__Request__facilit__66603565" FromRole="Facility" ToRole="Request" />
+    <Property Name="status" Type="Int32" />
+    <NavigationProperty Name="TypeOfFacilities" Relationship="ohdModel.FK__TypeOfFac__Facil__160F4887" FromRole="Facility" ToRole="TypeOfFacility" />
+  </EntityType>
+  <EntityType Name="Severity">
+    <Key>
+      <PropertyRef Name="SeverityId" />
+    </Key>
+    <Property Name="SeverityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SeverityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Requests" Relationship="ohdModel.FK__Request__severit__6FE99F9F" FromRole="Severity" ToRole="Request" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="StatusId" />
+    </Key>
+    <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Requests" Relationship="ohdModel.FK__Request__status__0A9D95DB" FromRole="Status" ToRole="Request" />
+  </EntityType>
+  <Association Name="FK__Article__categor__4F7CD00D">
+    <End Type="ohdModel.Category" Role="Category" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ohdModel.Article" Role="Article" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Article">
+        <PropertyRef Name="categoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="RequestUpdated">
+    <Key>
+      <PropertyRef Name="UpdateId" />
+    </Key>
+    <Property Name="UpdateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="requestStatus" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+    <Property Name="remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="created_at" Type="DateTime" Precision="3" />
+    <Property Name="RequestId" Type="Int32" />
+    <NavigationProperty Name="Request" Relationship="ohdModel.FK__RequestUp__Reque__48CFD27E" FromRole="RequestUpdated" ToRole="Request" />
+  </EntityType>
+  <EntityType Name="cms_contact">
+    <Key>
+      <PropertyRef Name="contact_id" />
+    </Key>
+    <Property Name="contact_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="from_user" Type="Int32" />
+    <Property Name="to_user" Type="Int32" />
+    <Property Name="message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="created_at" Type="DateTime" Precision="3" />
+    <Property Name="mail_id" Type="Int32" />
+    <Property Name="status" Type="Int32" />
+    <NavigationProperty Name="cms_mail" Relationship="ohdModel.FK__cms_conta__mail___5FB337D6" FromRole="cms_contact" ToRole="cms_mail" />
+  </EntityType>
+  <EntityType Name="cms_mail">
+    <Key>
+      <PropertyRef Name="mail_id" />
+    </Key>
+    <Property Name="mail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="from_user" Type="Int32" />
+    <Property Name="to_user" Type="Int32" />
+    <Property Name="created_at" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="cms_contact" Relationship="ohdModel.FK__cms_conta__mail___5FB337D6" FromRole="cms_mail" ToRole="cms_contact" />
+    <NavigationProperty Name="User" Relationship="ohdModel.FK__cms_mail__from_u__59FA5E80" FromRole="cms_mail" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__cms_conta__mail___5FB337D6">
+    <End Type="ohdModel.cms_mail" Role="cms_mail" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ohdModel.cms_contact" Role="cms_contact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cms_mail">
+        <PropertyRef Name="mail_id" />
+      </Principal>
+      <Dependent Role="cms_contact">
+        <PropertyRef Name="mail_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="gender" Type="Boolean" />
+    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="birthday" Type="DateTime" Precision="0" />
+    <Property Name="favorite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="role" Type="Int32" />
+    <Property Name="facility" Type="Int32" />
+    <Property Name="avatar" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="timeJoin" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Articles" Relationship="ohdModel.FK__Article__UserId__571DF1D5" FromRole="User" ToRole="Article" />
+    <NavigationProperty Name="cms_mail" Relationship="ohdModel.FK__cms_mail__from_u__59FA5E80" FromRole="User" ToRole="cms_mail" />
+    <NavigationProperty Name="Role1" Relationship="ohdModel.FK__Users__role__6EF57B66" FromRole="User" ToRole="Role" />
+    <NavigationProperty Name="Requests" Relationship="ohdModel.FK__Request__request__5629CD9C" FromRole="User" ToRole="Request" />
+    <NavigationProperty Name="Notifications" Relationship="ohdModel.FK__Notificat__userI__7B5B524B" FromRole="User" ToRole="Notification" />
+    <NavigationProperty Name="comments" Relationship="ohdModel.FK__comment__userId__55F4C372" FromRole="User" ToRole="comment" />
+    <Property Name="status" Type="Int32" />
+  </EntityType>
+  <Association Name="FK__Article__UserId__571DF1D5">
+    <End Type="ohdModel.User" Role="User" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ohdModel.Article" Role="Article" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Article">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__cms_mail__from_u__59FA5E80">
+    <End Type="ohdModel.User" Role="User" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ohdModel.cms_mail" Role="cms_mail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="cms_mail">
+        <PropertyRef Name="from_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Questionnaire">
+    <Key>
+      <PropertyRef Name="qId" />
+    </Key>
+    <Property Name="qId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="question" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="answer" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="author" Type="Int32" />
+    <Property Name="created_at" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Users" Relationship="ohdModel.FK__Users__role__6EF57B66" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__Users__role__6EF57B66">
+    <End Type="ohdModel.Role" Role="Role" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ohdModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Request">
+    <Key>
+      <PropertyRef Name="RequestId" />
+    </Key>
+    <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="severity" Type="Int32" />
+    <Property Name="requestor" Type="Int32" />
+    <Property Name="facility" Type="Int32" />
+    <Property Name="assigned" Type="Int32" />
+    <Property Name="status" Type="Int32" />
+    <Property Name="remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="created_at" Type="DateTime" Precision="3" />
+    <Property Name="block" Type="Int32" />
+    <NavigationProperty Name="Facility1" Relationship="ohdModel.FK__Request__facilit__66603565" FromRole="Request" ToRole="Facility" />
+    <NavigationProperty Name="User" Relationship="ohdModel.FK__Request__request__5629CD9C" FromRole="Request" ToRole="User" />
+    <NavigationProperty Name="Severity1" Relationship="ohdModel.FK__Request__severit__6FE99F9F" FromRole="Request" ToRole="Severity" />
+    <NavigationProperty Name="RequestUpdateds" Relationship="ohdModel.FK__RequestUp__Reque__48CFD27E" FromRole="Request" ToRole="RequestUpdated" />
+    <NavigationProperty Name="Notifications" Relationship="ohdModel.FK__Notificat__reque__7C4F7684" FromRole="Request" ToRole="Notification" />
+    <NavigationProperty Name="Status1" Relationship="ohdModel.FK__Request__status__0A9D95DB" FromRole="Request" ToRole="Status" />
+    <Property Name="typefacility" Type="Int32" />
+    <NavigationProperty Name="TypeOfFacility" Relationship="ohdModel.FK__Request__typefac__1F98B2C1" FromRole="Request" ToRole="TypeOfFacility" />
+  </EntityType>
+  <Association Name="FK__Request__facilit__66603565">
+    <End Type="ohdModel.Facility" Role="Facility" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ohdModel.Request" Role="Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Facility">
+        <PropertyRef Name="FacilityId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="facility" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Request__request__5629CD9C">
+    <End Type="ohdModel.User" Role="User" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ohdModel.Request" Role="Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="requestor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Request__severit__6FE99F9F">
+    <End Type="ohdModel.Severity" Role="Severity" Multiplicity="0..1" />
+    <End Type="ohdModel.Request" Role="Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Severity">
+        <PropertyRef Name="SeverityId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="severity" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RequestUp__Reque__48CFD27E">
+    <End Type="ohdModel.Request" Role="Request" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ohdModel.RequestUpdated" Role="RequestUpdated" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request">
+        <PropertyRef Name="RequestId" />
+      </Principal>
+      <Dependent Role="RequestUpdated">
+        <PropertyRef Name="RequestId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="NotiId" />
+    </Key>
+    <Property Name="NotiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="Int32" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="created_at" Type="DateTime" Precision="3" />
+    <Property Name="requestId" Type="Int32" />
+    <NavigationProperty Name="Request" Relationship="ohdModel.FK__Notificat__reque__7C4F7684" FromRole="Notification" ToRole="Request" />
+    <NavigationProperty Name="User" Relationship="ohdModel.FK__Notificat__userI__7B5B524B" FromRole="Notification" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__Notificat__reque__7C4F7684">
+    <End Type="ohdModel.Request" Role="Request" Multiplicity="0..1" />
+    <End Type="ohdModel.Notification" Role="Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request">
+        <PropertyRef Name="RequestId" />
+      </Principal>
+      <Dependent Role="Notification">
+        <PropertyRef Name="requestId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Notificat__userI__7B5B524B">
+    <End Type="ohdModel.User" Role="User" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ohdModel.Notification" Role="Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Notification">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Request__status__0A9D95DB">
+    <End Type="ohdModel.Status" Role="Status" Multiplicity="0..1" />
+    <End Type="ohdModel.Request" Role="Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="StatusId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Feedback">
+    <Key>
+      <PropertyRef Name="fbId" />
+    </Key>
+    <Property Name="fbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="Int32" />
+    <Property Name="created_at" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="TypeOfFacility">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="Facility" Type="Int32" />
+    <NavigationProperty Name="Facility1" Relationship="ohdModel.FK__TypeOfFac__Facil__160F4887" FromRole="TypeOfFacility" ToRole="Facility" />
+    <NavigationProperty Name="Requests" Relationship="ohdModel.FK__Request__typefac__1F98B2C1" FromRole="TypeOfFacility" ToRole="Request" />
+  </EntityType>
+  <Association Name="FK__TypeOfFac__Facil__160F4887">
+    <End Type="ohdModel.Facility" Role="Facility" Multiplicity="0..1" />
+    <End Type="ohdModel.TypeOfFacility" Role="TypeOfFacility" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Facility">
+        <PropertyRef Name="FacilityId" />
+      </Principal>
+      <Dependent Role="TypeOfFacility">
+        <PropertyRef Name="Facility" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Request__typefac__1F98B2C1">
+    <End Type="ohdModel.TypeOfFacility" Role="TypeOfFacility" Multiplicity="0..1" />
+    <End Type="ohdModel.Request" Role="Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeOfFacility">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="typefacility" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="comment">
+    <Key>
+      <PropertyRef Name="cmt_id" />
+    </Key>
+    <Property Name="cmt_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="article_id" Type="Int32" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="created_at" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Article" Relationship="ohdModel.FK__comment__article__55009F39" FromRole="comment" ToRole="Article" />
+    <NavigationProperty Name="User" Relationship="ohdModel.FK__comment__userId__55F4C372" FromRole="comment" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__comment__article__55009F39">
+    <End Type="ohdModel.Article" Role="Article" Multiplicity="0..1" />
+    <End Type="ohdModel.comment" Role="comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Article">
+        <PropertyRef Name="ArticleId" />
+      </Principal>
+      <Dependent Role="comment">
+        <PropertyRef Name="article_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__comment__userId__55F4C372">
+    <End Type="ohdModel.User" Role="User" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ohdModel.comment" Role="comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="comment">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

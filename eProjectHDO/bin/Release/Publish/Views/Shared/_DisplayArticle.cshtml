@@ -1,0 +1,62 @@
+﻿@model IEnumerable<eProjectHDO.Models.Article>
+@if (Model != null)
+{
+    int i = 0;
+    int category = 0;
+    <div class="row">
+        <div class="col-8 col-m-6">
+            @foreach (var item in Model)
+            {
+                if (i == 0)
+                {
+                    <div class="article">
+                        <div class="article-thumbnail">
+                            <a href="@Url.Action("View","Article",new {id=item.ArticleId })">
+                                <img src="~/images/thumbnail/@item.thumbnail" alt="">
+                            </a>
+                        </div>
+                        <!-- thumbnail -->
+                        <div class="article-info">
+                            <div class="time"><i class="fas fa-calendar-alt"></i> @item.created_at</div>
+                            <a href="@Url.Action("View","Article",new {id=item.ArticleId })"><h2>@item.title</h2></a>
+                        </div>
+                    </div>
+                    <!-- article div -->
+                }
+                category = (int)item.categoryId;
+                break;
+            }
+        </div>
+        <!-- col-8 div -->
+        <div class="col-4 col-m-6">
+            @foreach (var item in Model)
+            {
+                if (i != 0)
+                {
+                    <div class="article">
+                        <div class="article-thumbnail">
+                            <a href="@Url.Action("View","Article",new {id=item.ArticleId })">
+                                <img src="~/images/thumbnail/@item.thumbnail" alt="">
+                            </a>
+                        </div>
+                        <!-- thumbnail -->
+                        <div class="article-info">
+                            <a href="@Url.Action("View","Article",new {id=item.ArticleId })"><h2>@item.title</h2></a>
+                            <div class="time"><i class="fas fa-calendar-alt"></i> @item.created_at</div>
+                        </div>
+                    </div>
+                }
+                <!-- article div -->
+                i++;
+            }
+            @if (i > 0)
+            {
+                <div class="see-more">
+                    <a href="@Url.Action("Category","Home",new {id=category })" class="see-more-btn danger-color">See more</a>
+                </div>
+            }
+        </div>
+        <!-- end col -4 -->
+    </div>
+    <!-- end row -->
+}

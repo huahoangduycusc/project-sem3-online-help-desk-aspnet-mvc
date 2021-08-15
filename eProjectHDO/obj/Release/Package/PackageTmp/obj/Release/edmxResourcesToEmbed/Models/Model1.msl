@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ohdModelStoreContainer" CdmEntityContainer="ohdEntities">
+    <EntitySetMapping Name="Articles">
+      <EntityTypeMapping TypeName="ohdModel.Article">
+        <MappingFragment StoreEntitySet="Article">
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+          <ScalarProperty Name="view" ColumnName="view" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+          <ScalarProperty Name="thumbnail" ColumnName="thumbnail" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="ArticleId" ColumnName="ArticleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="ohdModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Facilities">
+      <EntityTypeMapping TypeName="ohdModel.Facility">
+        <MappingFragment StoreEntitySet="Facility">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="FacilityName" ColumnName="FacilityName" />
+          <ScalarProperty Name="FacilityId" ColumnName="FacilityId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Severities">
+      <EntityTypeMapping TypeName="ohdModel.Severity">
+        <MappingFragment StoreEntitySet="Severity">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="SeverityName" ColumnName="SeverityName" />
+          <ScalarProperty Name="SeverityId" ColumnName="SeverityId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="ohdModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RequestUpdateds">
+      <EntityTypeMapping TypeName="ohdModel.RequestUpdated">
+        <MappingFragment StoreEntitySet="RequestUpdated">
+          <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <ScalarProperty Name="requestStatus" ColumnName="requestStatus" />
+          <ScalarProperty Name="UpdateId" ColumnName="UpdateId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cms_contact">
+      <EntityTypeMapping TypeName="ohdModel.cms_contact">
+        <MappingFragment StoreEntitySet="cms_contact">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="mail_id" ColumnName="mail_id" />
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="to_user" ColumnName="to_user" />
+          <ScalarProperty Name="from_user" ColumnName="from_user" />
+          <ScalarProperty Name="contact_id" ColumnName="contact_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cms_mail">
+      <EntityTypeMapping TypeName="ohdModel.cms_mail">
+        <MappingFragment StoreEntitySet="cms_mail">
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+          <ScalarProperty Name="to_user" ColumnName="to_user" />
+          <ScalarProperty Name="from_user" ColumnName="from_user" />
+          <ScalarProperty Name="mail_id" ColumnName="mail_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="ohdModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="timeJoin" ColumnName="timeJoin" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+          <ScalarProperty Name="facility" ColumnName="facility" />
+          <ScalarProperty Name="role" ColumnName="role" />
+          <ScalarProperty Name="favorite" ColumnName="favorite" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questionnaires">
+      <EntityTypeMapping TypeName="ohdModel.Questionnaire">
+        <MappingFragment StoreEntitySet="Questionnaire">
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+          <ScalarProperty Name="author" ColumnName="author" />
+          <ScalarProperty Name="answer" ColumnName="answer" />
+          <ScalarProperty Name="question" ColumnName="question" />
+          <ScalarProperty Name="qId" ColumnName="qId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="ohdModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Requests">
+      <EntityTypeMapping TypeName="ohdModel.Request">
+        <MappingFragment StoreEntitySet="Request">
+          <ScalarProperty Name="typefacility" ColumnName="typefacility" />
+          <ScalarProperty Name="block" ColumnName="block" />
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="assigned" ColumnName="assigned" />
+          <ScalarProperty Name="facility" ColumnName="facility" />
+          <ScalarProperty Name="requestor" ColumnName="requestor" />
+          <ScalarProperty Name="severity" ColumnName="severity" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="ohdModel.Notification">
+        <MappingFragment StoreEntitySet="Notification">
+          <ScalarProperty Name="requestId" ColumnName="requestId" />
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="NotiId" ColumnName="NotiId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Feedbacks">
+      <EntityTypeMapping TypeName="ohdModel.Feedback">
+        <MappingFragment StoreEntitySet="Feedback">
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="fbId" ColumnName="fbId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TypeOfFacilities">
+      <EntityTypeMapping TypeName="ohdModel.TypeOfFacility">
+        <MappingFragment StoreEntitySet="TypeOfFacility">
+          <ScalarProperty Name="Facility" ColumnName="Facility" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="comments">
+      <EntityTypeMapping TypeName="ohdModel.comment">
+        <MappingFragment StoreEntitySet="comment">
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="article_id" ColumnName="article_id" />
+          <ScalarProperty Name="cmt_id" ColumnName="cmt_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

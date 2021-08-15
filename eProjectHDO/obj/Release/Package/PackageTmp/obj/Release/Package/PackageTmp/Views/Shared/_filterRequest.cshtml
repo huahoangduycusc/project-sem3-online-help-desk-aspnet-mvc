@@ -1,0 +1,37 @@
+﻿@model IEnumerable<eProjectHDO.Models.RequestUser>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.requestTitle</td>
+        <td>@item.facility</td>
+        <td>@item.type</td>
+        <td><span class="severity">@item.severity</span></td>
+        <td><a href="@Url.Action("Index","User",new {id=item.userId })">@item.username</a></td>
+        <td>
+            <span class="dot">
+                @if (item.status == "Assigned" || item.status == "Unassigned")
+                {
+                    <i class="bg-primary"></i>
+                }
+                @if (item.status == "Work in process" || item.status == "Need more info")
+                {
+                    <i class="bg-warning"></i>
+                }
+                @if (item.status == "Resolved")
+                {
+                    <i class="bg-success"></i>
+                }
+                @if (item.status == "Rejected")
+                {
+                    <i class="bg-danger"></i>
+                }
+                @item.status
+            </span>
+        </td>
+        <td>@item.created_at</td>
+        <td>
+            <a href="@Url.Action("See","Request",new {id=item.requestId })" class="btn-circle bg-success" data-id="@item.requestId"><i class="fas fa-eye"></i></a>
+            <a href="@Url.Action("delRequest","Admin",new {id=item.requestId })" class="btn-circle bg-danger" data-as="@item.requestId" onclick="if (! confirm('Continue?')) { return false; }"><i class="fas fa-trash"></i></a>
+        </td>
+    </tr>
+}

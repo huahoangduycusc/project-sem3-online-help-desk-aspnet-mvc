@@ -1,0 +1,82 @@
+﻿@model eProjectHDO.Models.RequestUser
+@{
+    ViewBag.Title = "See";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+
+<div class="panel-title">
+    <h3>View request details</h3>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>@Model.requestTitle</h3>
+                @if (Model.status == "Assigned" || Model.status == "Unassigned")
+                {
+                    <i class="bg-primary" style="font-size:0.8rem;padding: 5px;color:#fff;border-radius:5px">@Model.status</i>
+                }
+                @if (Model.status == "Work in process" || Model.status == "Need more info")
+                {
+                    <i class="bg-warning" style="font-size:0.8rem;padding: 5px;color:#fff;border-radius:5px">@Model.status</i>
+                }
+                @if (Model.status == "Resolved")
+                {
+                    <i class="bg-success" style="font-size:0.8rem;padding: 5px;color:#fff;border-radius:5px">@Model.status</i>
+                }
+                @if (Model.status == "Rejected")
+                {
+                    <i class="bg-danger" style="font-size:0.8rem;padding: 5px;color:#fff;border-radius:5px">@Model.status</i>
+                }
+            </div>
+            <div class="card-content">
+                <div class="request-head">
+                    <div class="requestor">
+                        Requestor: <a href="@Url.Action("Index","User",new {id=Model.userId })">@Model.username</a>
+                    </div>
+                    <div class="assigned">
+                        Assigner-person:
+                        @{
+                            if (Model.assigned == 0)
+                            {
+                                <span style="color:red">Unassigned</span>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Index","User",new {id=Model.assigned })" style="color:blue;font-weight:600;">@Model.assignedPerson</a>
+
+                            }
+                        }
+                    </div>
+                    <div class="request-time">
+                        Sent at <i class="fas fa-calendar-alt"></i>
+                        @Model.created_at
+                    </div>
+                </div>
+                <!-- request head -->
+                <div class="request-details">
+                    <div>Type of facility: <span class="request-type">@Model.facility</span></div>
+                    <div>Facility <span class="request-facility">@Model.type</span></div>
+                    <div>Severity <span class="request-severity">@Model.severity</span></div>
+                </div>
+                <div class="request-body">
+                    @(new HtmlString(HttpUtility.HtmlDecode((Model.description))))
+                </div>
+                <!-- request body -->
+            </div>
+        </div>
+    </div>
+    <!-- end col 12 -->
+    <div class="col-6 col-m-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>Request Status</h3>
+            </div>
+            <div class="card-content">
+                @{ Html.RenderAction("Status", "Request", new { id = Model.requestId });}
+            </div>
+        </div>
+        <!-- card div -->
+    </div>
+</div>
+<!-- end row -->

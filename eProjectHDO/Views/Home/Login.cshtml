@@ -1,0 +1,123 @@
+﻿@model eProjectHDO.Models.User
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to the system</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/login.css" type="text/css">
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <a href="@Url.Action("Index","Home")"><img src="/images/logo.png" alt=""></a>
+        </div>
+        <div class="form-login">
+            @using (Html.BeginForm())
+            {
+                <p class="title-login center">ONLINE HELP DESK</p>
+                <p class="title-login center">Login to Your account</p>
+                if (ViewBag.Msg != null)
+                {
+                    <div class="error">
+                        @ViewBag.Msg
+                    </div>
+                }
+                <div class="form-field active">
+                    @Html.TextBoxFor(m => m.username, "", new { @class = "input", required = "required" })
+                    <label for="">Username</label>
+                </div>
+                <div class="form-field active">
+                    @Html.TextBoxFor(m => m.password, "", new { @class = "input", type = "password", required = "required" })
+                    <label for="">Password</label>
+                </div>
+                <div class="form-field">
+                    <button type="submit">Sign in</button>
+                </div>
+                <div class="form-field cusc-text">
+                    New to CUSC ? <a href="@Url.Action("Register","Home")">Create an account.</a>
+                    <p><a href="" id="forgot">Forgot password ?</a></p>
+                </div>
+                <div class="center end">
+                    2020 © All rights reserved
+                </div>
+            }
+        </div>
+    </div>
+    <div class="feedback-container">
+        <div class="feedback-fixed">
+            <div class="feedback-title">Forgot password</div>
+            @using (Html.BeginForm("Index", "Email", FormMethod.Post, new { id = "form_submit" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="feedback-msg" style="text-align:center">
+                    <p id="json"></p>
+                </div>
+                <div class="feedback-txt">
+                    <p>Username</p>
+                    <input type="text" name="user" id="user" placeholder="Username" required>
+                </div>
+                <div class="feedback-txt">
+                    <p>Email</p>
+                    <input type="email" name="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="feedback-submit">
+                    <button type="submit" id="btn_send">Reset</button>
+                </div>
+                <a href="" class="close"><i class="fas fa-times"></i></a>
+            }
+        </div>
+        <div class="sign-owner">
+            <p>Design by</p>
+            <img src="/images/duy.png" alt="">
+        </div>
+    </div>
+    <script src="~/Scripts/login.js"></script>
+    <script>
+        var flag = false; // tránh click nhiều lần
+        $('#form_submit').submit(function () {
+            $('#json').html('');
+            if (flag == true) {
+                alert('Please, waiting a moment after the system handling'); // wait
+            }
+            flag = true;
+            $('#btn_send').html('Sending ...');
+            var username = $('#user').val(); // get username
+            var email = $('#email').val(); // get email
+            //alert("Bạn vừa click");
+            $.ajax({
+                url: '/Email/Index',
+                type: 'post',
+                cache: true,
+                data: {
+                    user: username,
+                    email: email
+                },
+                success: function (result) { // success
+                    if (result.msg != "") { // error
+                        $('#json').css('color', 'red');
+                        $('#json').html(result.msg);
+                    }
+                    if (result.success != "") { // success
+                        $('#json').css('color', 'green');
+                        $('#json').html(result.success);
+                    }
+                    flag = false;
+                    $('#btn_send').html('RESET');
+                },
+                error: function () {
+                    alert("Process handle occur error, please try it again !"); // error
+                }
+            });
+            return false;
+        });
+    </script>
+</body>
+</html>

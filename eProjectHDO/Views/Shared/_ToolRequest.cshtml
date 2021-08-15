@@ -1,0 +1,187 @@
+﻿<div class="phanhoi-container">
+    <div class="phanhoi-form">
+        <div class="phanhoi-title">
+            <img src="~/images/request.png" alt="">
+        </div>
+        <div class="phanhoi-bg">
+            <h2><span id="title">Hua Hoang Duy</span> <span class="severity" id="severity">Medium</span></h2>
+            <div class="phanhoi-body">
+                <div class="phanhoi-author">
+                    <p>Assigned person: <span id="assigned">clanchangthanh</span></p>
+                    <p>Requestor: <span id="requestor">hoangduy</span></p>
+                </div>
+                <div class="phanhoi-more">
+                    <p>Type of facility: <span class="facility" id="facility">text</span></p>
+                    <p>Facility: <span class="type" id="type">Text</span></p>
+                    <p>Status: <span class="status" id="status">text</span></p>
+                </div>
+                <div class="phanhoi-text" id="description">
+                    Text
+                </div>
+                <p class="phanhoi-time" id="times">
+                    Semt 22, 2020
+                </p>
+            </div>
+            <div class="close-phanhoi"><i class="fas fa-times"></i></div>
+        </div>
+    </div>
+</div>
+<div class="feedback-container">
+    <div class="feedback-fixed">
+        @using (Html.BeginForm("RejectedRequest", "Panel", FormMethod.Get, new { id = "reject_submit" }))
+        {
+            <div class="feedback-title">Rejected Request</div>
+            <div class="feedback-txt">
+                <p>Rejected reason: </p>
+                <textarea rows="5" name="reason" id="reason" required></textarea>
+                <input type="hidden" name="reject" id="reject">
+            </div>
+            <div class="feedback-submit">
+                <button type="submit" id="btnRe">Confirm</button>
+            </div>
+            <a href="" class="close"><i class="fas fa-times"></i></a>
+        }
+    </div>
+    <div class="sign-owner">
+        <p>Design by</p>
+        <img src="~/images/duy.png" alt="">
+    </div>
+</div>
+<div class="assigned-container">
+    <div class="assigned-fixed">
+        @using (Html.BeginForm("assignedPerson", "Panel", FormMethod.Get, new { id = "assigned_submit" }))
+        {
+            <div class="assigned-title">Assigned Person</div>
+            <div class="assigned-txt center">
+                <span>Choose Accounts</span>
+                @Html.DropDownList("person", new SelectList((System.Collections.IEnumerable)TempData["assigned"], "UserId", "fullname"), null, new { @class = "select-control" })
+                <input type="hidden" name="rq" id="rq">
+            </div>
+            <div class="assigned-submit">
+                <button type="submit" id="cf">Confirm</button>
+            </div>
+            <a href="" class="assigned-close"><i class="fas fa-times"></i></a>
+        }
+    </div>
+    <div class="sign-owner">
+        <p>Design by</p>
+        <img src="~/images/duy.png" alt="">
+    </div>
+</div>
+<script>
+    var view_fb = document.querySelectorAll('.view');
+    view_fb.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            var fb_id = item.getAttribute('data-id');
+            //alert(fb_id);
+            $.ajax({
+                url: '/Panel/viewRequest',
+                type: 'get',
+                cache: false,
+                data: {
+                    id: fb_id
+                },
+                success: function (result) {
+                    $('#title').html(result.title);
+                    $('#description').html(result.description);
+                    $('#facility').html(result.facility);
+                    $('#type').html(result.type);
+                    $('#assigned').html(result.person);
+                    $('#requestor').html(result.username);
+                    $('#severity').html(result.severity);
+                    $('#status').html(result.status);
+                    $('#times').html(result.times);
+                    $('.phanhoi-container').addClass('actives-phanhoi');
+                },
+                error: function () {
+                    alert("There are something wrong, Duy ?");
+                }
+            });
+        });
+    });
+</script>
+<script>
+    var view_fb = document.querySelectorAll('.rejected');
+    view_fb.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            $('#reject').val(item.getAttribute('data-r'));
+            feedback.classList.toggle("actives");
+        });
+    });
+    var chidinh = document.querySelectorAll('.assign');
+    chidinh.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            $('#rq').val(item.getAttribute('data-as'));
+            assign.classList.toggle("actives");
+        });
+    });
+</script>
+<script>
+    var flag = false; // tránh click nhiều lần
+    $('#reject_submit').submit(function () {
+        if (flag == true) {
+            alert('Please, waiting a moment after the system handling'); // wait
+        }
+        flag = true;
+        var id = $('#reject').val(); // get username
+        var remarks = $('#reason').val(); // get email
+        $('#btnRe').html('Waiting');
+        //alert("Bạn vừa click");
+        $.ajax({
+            url: '/Panel/RejectedRequest',
+            type: 'get',
+            cache: false,
+            data: {
+                id: id,
+                remarks: remarks
+            },
+            success: function (result) { // success
+                $('#btnRe').html('Confirm');
+                if (result.success != "") { // success
+                    feedback.classList.remove("actives");
+                   swal("Success!", "The request was denied!", "success");
+                }
+                flag = false;
+            },
+            error: function () {
+                alert("Process handle occur error, please try it again !"); // error
+            }
+        });
+        return false;
+    });
+    $('#assigned_submit').submit(function () {
+        if (flag == true) {
+            alert('Please, waiting a moment after the system handling'); // wait
+        }
+        flag = true;
+        var rq = $('#rq').val(); // get username
+        var person = $('#person').val(); // get email
+        //alert(person);
+        //alert("Bạn vừa click");
+        $('#cf').html('Waiting ...');
+        $.ajax({
+            url: '/Panel/assignedPerson',
+            type: 'get',
+            cache: false,
+            data: {
+                id: rq,
+                assigned: person
+            },
+            success: function (result) { // success
+                $('#cd').html('Confirm');
+                if (result.success != "") { // success
+                    assign.classList.remove("actives");
+                   swal("Success!", "The request was assigned!", "success");
+                }
+                flag = false;
+            },
+            error: function () {
+                alert("Process handle occur error, please try it again !"); // error
+            }
+        });
+        return false;
+    });
+</script>

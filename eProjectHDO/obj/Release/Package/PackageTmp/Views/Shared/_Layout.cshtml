@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Online Help Desk CUSC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css" type="text/css">
+    <link rel="icon" href="~/images/logo.png" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="~/images/logo.png" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="sticky-fixed">
+        <div class="menu-close">
+            <i class="fas fa-times"></i>
+        </div>
+    </div>
+    <div class="header-top-area">
+        <div class="container">
+            @if (Session.Count > 0)
+            {
+                <a href="@Url.Action("Index","User",new {id=Session["uid"] })" class="head-login"><i class="fa fa-user"></i>@Session["username"]</a>
+                <a href="@Url.Action("Logout","Home")" class="head-register"><i class="fa fa-sign-out-alt"></i>Log out</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Login","Home")" class="head-login"><i class="fa fa-sign-in-alt"></i>Login</a>
+                <a href="@Url.Action("Register","Home")" class="head-register"><i class="fa fa-user-alt"></i>Register</a>
+            }
+        </div>
+    </div>
+    <header>
+        <div class="header-container">
+            <nav>
+                <div class="logo"><a href="@Url.Action("Index","Home")"><img src="/images/logo.png" alt=""></a></div>
+                <ul class="navbar">
+                    <div class="logo-sm">
+                        <a href="@Url.Action("Index","Home")"><img src="/images/logo.png" alt=""></a>
+                    </div>
+                    @if (Session.Count > 0 && Session["uid"] != null)
+                    {
+                        <li class="navbar-item has-sub">
+                            <a class="navbar-link">Profile <i class="fas fa-angle-down"></i></a>
+                            <ul class="sub-menu">
+                                <li>
+                                    <a href="@Url.Action("Index","User",new {id=Session["uid"] })">View Profile</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Requests","User")">Your requirements</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Notification","User")">
+                                        Notification
+                                        @{Html.RenderAction("countNoti", "User");}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("List","Mail")">
+                                        Message
+                                        @{Html.RenderAction("DemTinNhan", "Mail");}
+                                    </a>
+                                </li>
+                                @if (User.IsInRole("head"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index","Panel")" target="_blank">Control Panel</a>
+                                    </li>
+                                }
+                                @if (User.IsInRole("assigned"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index","Assigned")" target="_blank">Control Panel</a>
+                                    </li>
+                                }
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index","Admin")" target="_blank">Control Panel</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    <li class="navbar-item">
+                        <a href="@Url.Action("Index","Home")" class="navbar-link">Home</a>
+                    </li>
+                    <li class="navbar-item has-sub">
+                        <a class="navbar-link">Category <i class="fas fa-angle-down"></i></a>
+                        @{ Html.RenderAction("sideCategory","Home");}
+                    </li>
+                    <li class="navbar-item">
+                        <a href="@Url.Action("About","Home")" class="navbar-link">About</a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="@Url.Action("Help","Home")" class="navbar-link">Help</a>
+                    </li>
+                </ul>
+                <div class="banner">
+                    <img src="/images/banner.png" alt="">
+                </div>
+                <div class="menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="wrapper">
+        @RenderBody()
+    </div>
+    <div class="duy"><i class="fas fa-angle-up"></i></div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 100) {
+                    $('.duy').fadeIn();
+                } else {
+                    $('.duy').fadeOut();
+                }
+            });
+            $('.duy').click(function () {
+                $("html, body").animate({ scrollTop: 0 }, 800);
+            });
+        });
+    </script>
+    <div class="gopy" id="clickfb">
+        <i class="fas fa-envelope"></i>
+    </div>
+    <!-- footer -->
+    <footer>
+        <div class="footer">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h2 class="footer-title">address</h2>
+                    <p><i class="fas fa-map-marker-alt"></i> 01 Ly Tu Trong, Ninh Kieu District, Can Tho City, Vietnam.</p>
+                </div>
+                <!-- footer col -->
+                <div class="footer-col">
+                    <h2 class="footer-title">RESPONSIBLE FOR THE CONTENT</h2>
+                    <p><i class="fas fa-signature"></i> Mr. Bao Ngo Gia</p>
+                    <p><i class="fas fa-signature"></i> Mr. Duy Tran Ho Thanh</p>
+                    <p><i class="fas fa-signature"></i> Mr. Duy Hua Hoang</p>
+                </div>
+                <!-- footer col -->
+                <div class="footer-col">
+                    <h2 class="footer-title">HOTLINE</h2>
+                    <p>
+                        <i class="fas fa-phone-volume"></i> +84 292 383 5581
+                    </p>
+                </div>
+                <!-- footer col -->
+                <div class="footer-col">
+                    <h2 class="footer-title">EMAIL</h2>
+                    <p>
+                        <i class="far fa-envelope"></i> <a href="mailto:cusc@ctu.edu.vn">cusc@ctu.edu.vn</a>
+                    </p>
+                </div>
+                <!-- footer col -->
+            </div>
+            <div class="footer-full">
+                © Can Tho University Software Center
+            </div>
+            <!-- container -->
+        </div>
+        <!-- footer -->
+    </footer>
+    <!-- end footer -->
+    @*phan hoi*@
+    <div class="phanhoi-container">
+        @using (Html.BeginForm("Index", "Feedback", FormMethod.Post, new { @class = "phanhoi-form", id = "send_fb" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="phanhoi-title">
+                <img src="~/images/feedback.png" alt="">
+            </div>
+            <div class="phanhoi-bg">
+                <div class="phanhoi-box">
+                    <input type="email" name="email" id="emailf" placeholder="Email" required>
+                </div>
+                <div class="phanhoi-box">
+                    <input type="text" name="title" id="titlef" placeholder="Title" required>
+                </div>
+                <div class="phanhoi-box">
+                    <textarea rows="7" placeholder="Message" name="description" id="msgf" required></textarea>
+                </div>
+                <div class="phanhoi-box">
+                    <button type="submit">Send</button>
+                    <a class="close-phanhoi">Close</a>
+                </div>
+            </div>
+        }
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#send_fb').submit(function () {
+                //alert("Hello");
+                var emailf = $('#emailf').val();
+                var tieudef = $('#titlef').val();
+                var msgf = $('#msgf').val();
+                $.ajax({
+                    url: '/Feedback/Index',
+                    type: 'post',
+                    cache: false,
+                    data: {
+                        email: emailf,
+                        title: tieudef,
+                        description: msgf
+                    },
+                    success: function (result) {
+                        $('.phanhoi-container').removeClass('actives-phanhoi');
+                        $('#emailf').val('');
+                        $('#titlef').val('');
+                        $('#msgf').val('');
+                        swal("Success!", "Thank you for feedback!", "success");
+                    },
+                    error: function () {
+                        alert("There are something wrong?");
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+    <script>
+        var click_fb = document.querySelector('#clickfb');
+        var phanhoi = document.querySelector('.phanhoi-container');
+        var closePhanhoi = document.querySelector('.close-phanhoi');
+        if (click_fb) {
+            click_fb.addEventListener('click', function () {
+                phanhoi.classList.toggle('actives-phanhoi');
+            });
+        }
+        if (phanhoi) {
+            phanhoi.addEventListener('click', function (e) {
+                var div = e.target;
+                if (div.classList.contains('phanhoi-container')) {
+                    phanhoi.classList.remove('actives-phanhoi');
+                }
+            });
+        }
+        if (closePhanhoi) {
+            closePhanhoi.addEventListener('click', function (e) {
+                phanhoi.classList.remove('actives-phanhoi');
+            });
+        }
+    </script>
+    <script src="~/Scripts/app.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

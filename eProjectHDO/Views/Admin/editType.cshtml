@@ -1,0 +1,39 @@
+﻿@model eProjectHDO.Models.TypeOfFacility
+@{
+    ViewBag.Title = "editType";
+    Layout = "~/Views/Shared/_admin.cshtml";
+    int fid = Convert.ToInt32(Request.QueryString["fid"]);
+}
+<div class="panel-title"><h3>Edit Type of Facility</h3></div>
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm())
+        {
+            if (ViewBag.Success != null)
+            {
+                <div class="success">@ViewBag.Success</div>
+            }
+            <div class="box-input">
+                <p>Facility Name : </p>
+                @Html.TextBoxFor(m => m.TypeName, "", new { @class = "form-control", required = "required" })
+            </div>
+            <div class="box-input">
+                <p>Status : </p>
+                @Html.DropDownListFor(m => m.Status, new List<SelectListItem>
+               {
+                   new SelectListItem{Value="0",Text="Active"},
+                   new SelectListItem{Value="1",Text="Maintenance"}
+               }, new { @class = "form-control" })
+            </div>
+            <!-- end input -->
+            <div class="box-input">
+                <div class="center">
+                    <button type="submit" class="btn btn-create">Update</button>
+                </div>
+            </div>
+        }
+    </div>
+    <a href="@Url.Action("typeFacility","Admin",new {id=fid })" class="back">Back to List</a>
+    <!-- end col 12 -->
+</div>
+<!-- end row -->

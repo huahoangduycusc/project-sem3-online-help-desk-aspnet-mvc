@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "cSearch";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<div class="panel-title"><h3>Searching</h3></div>
+<div class="row">
+    <div class="form-search">
+        <div class="search-input">
+            <input type="text" name="name" id="name" placeholder="Search" value="@Request.QueryString["s"]">
+            <button type="submit" id="btn"><i class="fas fa-search"></i></button>
+            <div class="row type-radio">
+                <p><input type="radio" name="type" value="0" checked> Username</p>
+                <p><input type="radio" name="type" value="1"> Name</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-m-12">
+    <div class="card">
+        <div class="card-header"><h3>Searching for User</h3></div>
+        <div class="card-content">
+            <table class="table-re">
+                <tr>
+                    <th>Avatar</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Fullname</th>
+                    <th>Gender</th>
+                    <th>Role</th>
+                    <th>Operation</th>
+                </tr>
+                <tbody id="result">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    var btn = document.querySelector("#btn");
+    btn.addEventListener('click', function () {
+        var name = document.querySelector("#name");
+        var type = $("input[name='type']:checked").val();
+        $("#result").empty();
+        $("#result").html("<tr></tr><tr><td colspan=\"7\" style=\"text-align:center;\"><img src=\"https://www.ihrp.sg/wp-content/uploads/2019/06/giphy.gif\" style='width:150px'></td></tr>");
+        $.ajax({
+            url: '/Admin/GetUser',
+            type: 'get',
+            cache: false,
+            data: {
+                name: name.value,
+                type: type
+            },
+            success: function (data) {
+                $("#result").empty();
+                $("#result").append(data);
+                //alert(data);
+            }
+        });
+    });
+</script>

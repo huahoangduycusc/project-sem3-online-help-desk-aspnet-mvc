@@ -1,0 +1,46 @@
+﻿@model IPagedList<eProjectHDO.Models.Questionnaire>
+@{
+    ViewBag.Title = "Questionnaire";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="panel-title"><h3>Questionnaire</h3></div>
+<div class="col-6 col-sm-6" style="margin-top:10px">
+    <a href="@Url.Action("createQandA","Admin")" class="button"><i class="fas fa-plus"></i> Create new</a>
+</div>
+<div class="row">
+    <div class="col-12 col-m-12">
+        <div class="card">
+            <div class="card-header"><h3>Questionnaire</h3></div>
+            <div class="card-content">
+                <table class="table-re">
+                    <thead>
+                    <th>Question</th>
+                    <th>Answer</th>
+                    <th>Last modified</th>
+                    <th>Operation</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.question</td>
+                                <td>@item.answer</td>
+                                <td>@item.created_at</td>
+                                <td>
+                                    <a href="@Url.Action("editQandA","Admin",new {id=item.qId })" class="btn-circle bg-warning"><i class="fas fa-pen"></i></a>
+                                    <a href="@Url.Action("deleteQandA","Admin",new {id=item.qId })" class="btn-circle bg-danger" onclick="if (! confirm('Continue?')) { return false; }"><i class="fas fa-times"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("cQandA", "Admin", new { page }))
+    </div>
+</div>
+
+
+

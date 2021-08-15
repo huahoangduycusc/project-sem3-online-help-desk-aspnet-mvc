@@ -1,0 +1,48 @@
+﻿@model eProjectHDO.Models.RequestUser
+    @{
+        ViewBag.Title = Model.requestTitle;
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    <div class="background-black">
+        <div class="background-overlay"></div>
+        <div class="container">
+            <div class="background-title">
+                <h2>@Model.requestTitle</h2>
+                <p>
+                    <a href="@Url.Action("Index","Home")">Home</a> / <a href="#">View Request</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row row-reverse">
+            <div class="col-8 col-m-8">
+                <div class="request-container">
+                    <div class="request-title">
+                        @Model.requestTitle
+                    </div>
+                    <div class="request-info">
+                        <p>by <a href="@Url.Action("Index","User",new {id=Model.userId })">@Model.username</a></p>
+                        <p><i class="fas fa-calendar-alt"></i> @Model.created_at</p>
+                    </div>
+                    <div class="request-content">
+                        <div class="facility">
+                            <span>@Model.facility (@Model.type)</span>
+                        </div>
+                        @(new HtmlString(HttpUtility.HtmlDecode((Model.description))))
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 col-m-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Request Status</h3>
+                    </div>
+                    <div class="card-content">
+                        @{ Html.RenderAction("Status", "Request", new { id = Model.requestId });}
+                    </div>
+                </div>
+                <!-- card div -->
+            </div>
+        </div>
+    </div>

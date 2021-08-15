@@ -1,0 +1,114 @@
+﻿@model IPagedList<eProjectHDO.Models.RequestUser>
+@{
+    ViewBag.Title = "searchRequest";
+    Layout = "~/Views/Shared/_admin.cshtml";
+    int type = 0;
+    if (Request.QueryString["type"] == null)
+    {
+        type = 0;
+    }
+    else
+    {
+        type = Convert.ToInt32(Request.QueryString["type"]);
+    }
+}
+@using PagedList;
+@using PagedList.Mvc;
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<div class="row">
+    <div class="coso">
+        Type of facility : @TempData["facility"]
+    </div>
+</div>
+<div class="row">
+    <div class="form-search">
+        <form action="@Url.Action("searchRequest","Panel")" method="get">
+            <div class="search-input">
+                <input type="number" name="query" placeholder="Search" value="@Request.QueryString["s"]">
+                <button type="submit"><i class="fas fa-search"></i></button>
+                <div class="row type-radio">
+                    <p><input type="radio" name="type" value="0" checked> ID Requestor</p>
+                    <p><input type="radio" name="type" value="1"> ID Assigned-person</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>List of requests incoming</h3>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="card-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Request Title</th>
+                            <th>Type</th>
+                            <th>Severity</th>
+                            <th>Requestor</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Assigned</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.requestTitle</td>
+                                <td>@item.type</td>
+                                <td>@item.severity</td>
+                                <td><a href="@Url.Action("Index","User",new {id=item.userId })">@item.username</a></td>
+                                <td>
+                                    <span class="dot">
+                                        @if (item.status == "Assigned" || item.status == "Unassigned")
+                                        {
+                                            <i class="bg-primary"></i>
+                                        }
+                                        @if (item.status == "Work in process" || item.status == "Need more info")
+                                        {
+                                            <i class="bg-warning"></i>
+                                        }
+                                        @if (item.status == "Resolved")
+                                        {
+                                            <i class="bg-success"></i>
+                                        }
+                                        @if (item.status == "Rejected")
+                                        {
+                                            <i class="bg-danger"></i>
+                                        }
+                                        @item.status
+                                    </span>
+                                </td>
+                                <td>@item.created_at</td>
+                                <td>
+                                    @if (item.assigned == 0)
+                                    {
+                                        <span></span>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Index","User",new {id=item.assigned })">@item.assignedPerson</a>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="" class="btn-circle bg-success view" data-id="@item.requestId"><i class="fas fa-eye"></i></a>
+                                    <a href="" class="btn-circle bg-warning assign" data-as="@item.requestId"><i class="fas fa-user-cog"></i></a>
+                                    <a href="" class="btn-circle bg-danger rejected" data-r="@item.requestId"><i class="fas fa-calendar-times"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("List", "Panel", new { page, type = type }))
+    </div>
+    <!-- end col -->
+</div>
+@{ Html.RenderAction("RenderTool", "Panel", null);}

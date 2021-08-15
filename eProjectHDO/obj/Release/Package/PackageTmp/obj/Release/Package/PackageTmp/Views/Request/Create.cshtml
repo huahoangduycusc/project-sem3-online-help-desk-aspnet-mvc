@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Create Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<div class="background-black">
+    <div class="background-overlay"></div>
+    <div class="container">
+        <div class="background-title">
+            <h2>Create new request</h2>
+            <p>
+                <a href="@Url.Action("Index","Home")">Home</a> / <a href="#">Create Request</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+
+            @using (Html.BeginForm())
+            {
+                if (ViewBag.msg != null)
+                {
+                    <div class="error">@ViewBag.msg</div>
+                }
+                if (ViewBag.success != null)
+                {
+                    <div class="success">@Html.Raw(ViewBag.success)</div>
+                }
+                <div class="form-field">
+                    <p>Title</p>
+                    <input type="text" class="form-control" name="title" id="title" required>
+                </div>
+                <div class="form-field">
+                    <p>Description</p>
+                    <textarea class="form-control" rows="5" name="description" id="description" required></textarea>
+                </div>
+                <div class="form-field">
+                    <div class="row">
+                        <div class="col-4 col-m-4">
+                            <b>Tye of facility</b>
+                            @if (TempData["facility"] != null)
+                            {
+                                @Html.DropDownList("facility", new SelectList((System.Collections.IEnumerable)TempData["facility"], "FacilityId", "FacilityName"), new { @class = "form-control-select" })
+                            }
+                        </div>
+                        <div class="col-4 col-m-4">
+                            <b>Facility</b>
+                            @if (TempData["typeOfFacility"] != null)
+                            {
+                                @Html.DropDownList("typefacility", new SelectList((System.Collections.IEnumerable)TempData["typeOfFacility"], "TypeId", "TypeName"), new { @class = "form-control-select" })
+                            }
+                        </div>
+                        <div class="col-4 col-m-4">
+                            <b>Severity</b>
+                            @if (TempData["severity"] != null)
+                            {
+                                @Html.DropDownList("severity", new SelectList((System.Collections.IEnumerable)TempData["severity"], "SeverityId", "SeverityName"), new { @class = "form-control-select" })
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- end form field -->
+                <div class="form-field" style="text-align:center;">
+                    <button type="submit" class="btn" style="width:50%">Create request</button>
+                </div>
+            }
+        </div>
+        <!-- end col 12 -->
+    </div>
+    <!-- end row -->
+</div>
+<script>
+    document.getElementById("facility").onchange = function (event) {
+        let faci = this.value;
+        //alert(faci);
+        $.ajax({
+            url: '/Request/getTypeofFacility',
+            type: 'get',
+            dataType: 'JSON',
+            cache: false,
+            data: {
+                id : faci
+            },
+            success: function (result) {
+                //alert(result);
+                var html = "";
+                $.each(result, function (index,value) {
+                    html += `<option value="${value.TypeId}">${value.TypeName}</option>`;
+                });
+                document.querySelector('#typefacility').innerHTML = html;
+            },
+            error: function () {
+                alert("Duy oi~, there is something wrong happend");
+            }
+        });
+    };
+</script>

@@ -1,0 +1,56 @@
+﻿@model IPagedList<eProjectHDO.Models.Baiviet>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="panel-title"><h3>List of articles</h3></div>
+<div class="row">
+    <div class="col-6 col-sm-6" style="margin-top:10px">
+        <a href="@Url.Action("Create","Article")" class="button"><i class="fas fa-plus"></i> Create new</a>
+    </div>
+    <div class="col-6 col-sm-6" style="margin-top:10px">
+        <a href="@Url.Action("Report","Article")" class="button bg-danger"><i class="fas fa-print"></i> Print</a>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-12 col-m-12">
+            <div class="card">
+                <div class="card-header"><h3>List of articles</h3></div>
+                <div class="card-content">
+                    <table class="table-re">
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>View</th>
+                            <th>Created at</th>
+                            <th>Operation</th>
+                        </tr>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="width:80px;"><img src="~/images/thumbnail/@item.thumbnail" style="width:100%" /></td>
+                                    <td style="width:30%">
+                                        <a href="@Url.Action("View","Article",new {id=item.id })">@item.title</a>
+                                    </td>
+                                    <td><a href="@Url.Action("Index","User",new {id=item.userId })">@item.author</a></td>
+                                    <td>@item.view</td>
+                                    <td>@item.created_at</td>
+                                    <td>
+                                        <a href="@Url.Action("editArticle","Article",new {id=item.id })" class="btn-circle bg-warning"><i class="fas fa-pen"></i></a>
+                                        <a href="@Url.Action("deleteArticle","Article",new {id=item.id })" class="btn-circle bg-danger" onclick="if (! confirm('Continue?')) { return false; }"><i class="fas fa-times"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @Html.PagedListPager(Model, page => Url.Action("List", "Article", new { page }))
+        </div>
+    </div>
+
+

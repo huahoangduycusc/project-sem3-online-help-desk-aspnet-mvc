@@ -1,0 +1,79 @@
+﻿@model IEnumerable<eProjectHDO.Models.User>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Print User</title>
+    <link rel="stylesheet" href="~/Content/admin.css" type="text/css">
+</head>
+<body>
+    <div class="center"><h1>Statistics</h1></div>
+    <div class="col-12 col-m-12">
+        <div class="card">
+            <div class="card-header"><h3>List of Users</h3></div>
+            <div class="card-content">
+                <table class="table-re">
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Fullname</th>
+                        <th>Gender</th>
+                        <th>Role</th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Index","User",new {id=item.UserId })"><img src="~/images/profile/@item.avatar" class="td-avatar"></a>
+                                </td>
+                                <td><a href="@Url.Action("Index","User",new {id=item.UserId })">@item.username</a></td>
+                                <td><a href="mailto:@item.email">@item.email</a></td>
+                                <td>@item.fullname</td>
+                                <td>
+                                    @{
+                                        if (item.gender == false)
+                                        {
+                                            <span>Male</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Female</span>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @{
+                                        if (item.role == 1)
+                                        {
+                                            <span style="color:#4582af;font-size:12pt;font-weight:bold">Member</span>
+                                        }
+                                        else if (item.role == 2)
+                                        {
+                                            <span style="color:#9932CC;font-size:12pt;font-weight:bold">Assigned-person</span>
+                                        }
+                                        else if (item.role == 3)
+                                        {
+                                            <span style="color:green;font-size:12pt;font-weight:bold">Facility-heads</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="color:#ff5159;font-size:12pt;font-weight:bold">Admin</span>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

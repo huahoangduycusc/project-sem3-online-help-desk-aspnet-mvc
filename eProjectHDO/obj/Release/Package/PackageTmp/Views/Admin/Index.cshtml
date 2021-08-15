@@ -1,0 +1,135 @@
+﻿@model eProjectHDO.Models.adminStatistic
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+
+    <div class="row">
+        <div class="col-3 col-m-6 col-sm-6">
+            <div class="counter bg-primary">
+                <p>
+                    <i class="fas fa-tasks"></i>
+                </p>
+                <h3>@Model.requests+</h3>
+                <p>Request</p>
+            </div>
+        </div>
+        <div class="col-3 col-m-6 col-sm-6">
+            <div class="counter bg-warning">
+                <p>
+                    <i class="fas fa-user"></i>
+                </p>
+                <h3>@Model.users+</h3>
+                <p>User</p>
+            </div>
+        </div>
+        <div class="col-3 col-m-6 col-sm-6">
+            <div class="counter bg-success">
+                <p>
+                    <i class="far fa-building"></i>
+                </p>
+                <h3>@Model.facilities+</h3>
+                <p>Facility</p>
+            </div>
+        </div>
+        <div class="col-3 col-m-6 col-sm-6">
+            <div class="counter bg-blue">
+                <p>
+                    <i class="fas fa-book"></i>
+                </p>
+                <h3>@Model.categories+</h3>
+                <p>Category</p>
+            </div>
+        </div>
+        <!-- item -->
+        <div class="col-3 col-m-6 col-sm-6">
+            <div class="counter bg-purple">
+                <p>
+                    <i class="fas fa-question"></i>
+                </p>
+                <h3>@Model.question+</h3>
+                <p>Question</p>
+            </div>
+        </div>
+        <!-- item -->
+        <div class="col-3 col-m-6 col-sm-6">
+            <div class="counter bg-danger">
+                <p>
+                    <i class="fas fa-recycle"></i>
+                </p>
+                <h3>@Model.fb+</h3>
+                <p>Feedback</p>
+            </div>
+        </div>
+        <!-- item -->
+        <div class="col-3 col-m-6 col-sm-6">
+            <div class="counter bg-pink">
+                <p>
+                    <i class="fas fa-newspaper"></i>
+                </p>
+                <h3>@Model.articles+</h3>
+                <p>Article</p>
+            </div>
+        </div>
+        <!-- item -->
+        <div class="col-3 col-m-6 col-sm-6">
+            <div class="counter bg-yellow">
+                <p>
+                    <i class="fas fa-comment"></i>
+                </p>
+                <h3>@Model.cmt+</h3>
+                <p>Comment</p>
+            </div>
+        </div>
+        <!-- item -->
+    </div>
+<div class="row">
+    <div class="col-12 col-m-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>
+                    Statistic
+                </h3>
+            </div>
+            <div class="card-content">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script>
+    var pending = @Html.Raw(Json.Encode(ViewBag.pending));
+    var success = @Html.Raw(Json.Encode(ViewBag.success));
+    var date = @Html.Raw(Json.Encode(ViewBag.date));
+    var ctx = document.getElementById('myChart')
+ctx.height = 500
+ctx.width = 500
+var data = {
+	labels: date,
+	datasets: [{
+		fill: false,
+		label: 'Request',
+		borderColor: "#4834d4",
+		data: pending,
+		borderWidth: 2,
+		lineTension: 0,
+	}, {
+		fill: false,
+		label: 'Resolved',
+		borderColor: "#6ab04c",
+		data: success,
+		borderWidth: 2,
+		lineTension: 0,
+	}]
+}
+
+var lineChart = new Chart(ctx, {
+	type: 'line',
+	data: data,
+	options: {
+		maintainAspectRatio: false,
+		bezierCurve: false,
+	}
+})
+</script>

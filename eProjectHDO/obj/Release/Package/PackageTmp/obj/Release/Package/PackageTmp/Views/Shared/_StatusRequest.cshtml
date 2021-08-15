@@ -1,0 +1,33 @@
+﻿@model IEnumerable<eProjectHDO.Models.RequestUpdated>
+@foreach (var item in Model)
+{
+    <div class="request-status">
+        <p><i class="fas fa-calendar-alt"></i> @item.created_at</p>
+        <span class="dot">
+            @if (item.requestStatus == "Pending" || item.requestStatus == "Assigned")
+            {
+                <i class="bg-primary"></i>
+            }
+            @if (item.requestStatus == "Work in process" || item.requestStatus == "Need more info")
+            {
+                <i class="bg-warning"></i>
+            }
+            @if (item.requestStatus == "Resolved")
+            {
+                <i class="bg-success"></i>
+            }
+            @if (item.requestStatus == "Rejected")
+            {
+                <i class="bg-danger"></i>
+            }
+            @item.requestStatus
+        </span>
+        @if (item.remarks != null)
+        {
+            <div class="request-remark">
+                (@item.remarks)
+            </div>
+        }
+    </div>
+    <!-- request status -->
+}

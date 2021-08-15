@@ -1,0 +1,52 @@
+﻿@model eProjectHDO.Models.Article
+@{
+    ViewBag.Title = "Edit Article";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+<div class="panel-title"><h3>Create Article</h3></div>
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm("editArticle", "Article", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            if (ViewBag.Msg != null)
+            {
+                <div class="error">@ViewBag.Msg</div>
+            }
+            if (ViewBag.Success != null)
+            {
+                <div class="success">@Html.Raw(ViewBag.Success)</div>
+            }
+            <div class="box-input">
+                <p>Title : </p>
+                @Html.TextBoxFor(m => m.title, "", new { @class = "form-control", required = "required" })
+            </div>
+            <div class="box-input">
+                <p>Description : </p>
+                @Html.TextAreaFor(m => m.description, 5, 5, new { @class = "form-control", required = "required" })
+            </div>
+            <div class="box-input">
+                <p>Thumbnail : </p>
+                <input type="file" name="thumbnail" class="form-control">
+                <div class="thumbnail"><img src="~/images/thumbnail/@Model.thumbnail" /></div>
+            </div>
+            <div class="box-input">
+                <p>Category : </p>
+                @Html.DropDownList("categoryId", new SelectList((System.Collections.IEnumerable)TempData["category"], "CategoryId", "CategoryName"), new { @class = "form-control" })
+            </div>
+            <!-- end input -->
+            <div class="box-input">
+                <div class="center">
+                    <button type="submit" class="btn btn-create">Update</button>
+                </div>
+            </div>
+        }
+    </div>
+    <a href="@Url.Action("List")" class="back">Back to List</a>
+    <!-- end col 12 -->
+</div>
+<!-- end row -->
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<script src="~/Scripts/ckfinder/ckfinder.js"></script>
+<script>
+    CKEDITOR.replace('description');
+</script>

@@ -1,0 +1,47 @@
+﻿@model IPagedList<eProjectHDO.Models.Category>
+@{
+    ViewBag.Title = "cCategory";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="panel-title"><h3>List of Categories</h3></div>
+<div class="col-6 col-sm-6" style="margin-top:10px">
+    <a href="@Url.Action("createCategory","Admin")" class="button"><i class="fas fa-plus"></i> Create new</a>
+</div>
+<div class="row">
+    <div class="col-12 col-m-12">
+        <div class="card">
+            @if (Request.QueryString["conflict"] != null)
+            {
+                <div class="error center">You cannot delete this category because it contains the relevant reference data</div>
+            }
+            <div class="card-header"><h3>List of Categories</h3></div>
+            <div class="card-content">
+                <table class="table-re">
+                    <tr>
+                    <th>Category Name</th>
+                    <th>Description</th>
+                    <th>Operation</th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.categoryName
+                                </td>
+                                <td>@item.description</td>
+                                <td>
+                                    <a href="@Url.Action("editCategory","Admin",new {id=item.CategoryId })" class="btn-circle bg-warning"><i class="fas fa-pen"></i></a>
+                                    <a href="@Url.Action("deleteCategory","Admin",new {id=item.CategoryId })" onclick="if (! confirm('Continue?')) { return false; }" class="btn-circle bg-danger"><i class="fas fa-times"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("cCategory", "Admin", new { page }))
+    </div>
+</div>

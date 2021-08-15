@@ -1,0 +1,43 @@
+﻿@model eProjectHDO.Models.Facility
+@{
+    ViewBag.Title = "editFacility";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+
+<div class="panel-title"><h3>Edit Facility</h3></div>
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm())
+        {
+            if (ViewBag.Success != null)
+            {
+                <div class="success">@ViewBag.Success</div>
+            }
+            <div class="box-input">
+                <p>Facility Name : </p>
+                @Html.TextBoxFor(m => m.FacilityName, "", new { @class = "form-control", required = "required" })
+            </div>
+            <div class="box-input">
+                <p>Description : </p>
+                @Html.TextAreaFor(m => m.Description, 5, 5, new { @class = "form-control", required = "required" })
+            </div>
+            <div class="box-input">
+                <p>Status : </p>
+                @Html.DropDownListFor(m => m.status,new List<SelectListItem>
+               {
+                   new SelectListItem{Value="0",Text="Active"},
+                   new SelectListItem{Value="1",Text="Maintenance"}
+               },new {@class="form-control" })
+            </div>
+            <!-- end input -->
+            <div class="box-input">
+                <div class="center">
+                    <button type="submit" class="btn btn-create">Update</button>
+                </div>
+            </div>
+        }
+    </div>
+    <a href="@Url.Action("cFacility")" class="back">Back to List</a>
+    <!-- end col 12 -->
+</div>
+<!-- end row -->

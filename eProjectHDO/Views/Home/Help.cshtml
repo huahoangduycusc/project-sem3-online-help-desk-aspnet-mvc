@@ -1,0 +1,47 @@
+﻿@model IPagedList<eProjectHDO.Models.Questionnaire>
+@{
+    ViewBag.Title = "Help";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="background-black">
+    <div class="background-overlay"></div>
+    <div class="container">
+        <div class="background-title">
+            <h2>General Question</h2>
+            <p>
+                <a href="">Home</a> / <a href="">Help</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            @foreach (var item in Model)
+            {
+                <div class="accordion-item">
+                    <div class="item-header">
+                        <h1 class="title">@item.question</h1>
+                        <div class="icon">+</div>
+                    </div>
+                    <p class="text">@item.answer</p>
+                </div>
+            }
+            <!-- item div -->
+        </div>
+    </div>
+    <div class="row">
+        @Html.PagedListPager(Model, page => Url.Action("Help", "Home", new { page }))
+    </div>
+</div>
+<div class="duy"><i class="fas fa-angle-up"></i></div>
+<script>
+    $('.item-header').click(function () {
+        $('.accordion-item').removeClass('active');
+        $(this).parent().addClass('active');
+        $('.icon').text('+');
+        $(this).children('.icon').text('-');
+    });
+</script>

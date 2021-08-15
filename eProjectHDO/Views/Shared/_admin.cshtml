@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel</title>
+    <link rel="stylesheet" href="~/fontawesome/css/all.min.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/admin.css" type="text/css">
+</head>
+<body class="overlay-scrollbar sidebar-expand">
+    <!-- Navbar -->
+    <div class="navbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-bars" onclick="collapseSidebar();"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="@Url.Action("Index","Home")"><img src="~/images/logo.png" class="logo" alt=""></a>
+            </li>
+        </ul>
+        <!-- nav right -->
+        <ul class="navbar-nav nav-right">
+            <li class="nav-item avt-wrapper">
+                <div class="avatar dropdown">
+                    <img src="~/images/profile/@Session["avatar"]" alt="" class="dropdown-toggle" data-toggle="user-menu">
+                    <ul id="user-menu" class="dropdown-menu">
+                        <li class="dropdown-menu-item">
+                            <a href="@Url.Action("Index","User",new {id=Session["uid"] })" class="dropdown-menu-link">
+                                <div>
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li class="dropdown-menu-item">
+                            <a href="@Url.Action("Logout","Home")" class="dropdown-menu-link">
+                                <div>
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                                <span>Log out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <!-- end navbar right -->
+    </div>
+    <!-- end navbar -->
+    <!-- Side bar -->
+    <div class="sidebar">
+        <ul class="sidebar-nav">
+            @if (User.IsInRole("head"))
+            {
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("Index","Panel")" class="sidebar-nav-link active">
+                        <div>
+                            <i class="fa fa-tachometer-alt"></i>
+                        </div>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("assigned"))
+            {
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("Index","Assigned")" class="sidebar-nav-link active">
+                        <div>
+                            <i class="fa fa-tachometer-alt"></i>
+                        </div>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("Report","Assigned")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-poll"></i>
+                        </div>
+                        <span>Report</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("admin"))
+            {
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("Index","Admin")" class="sidebar-nav-link active">
+                        <div>
+                            <i class="fa fa-tachometer-alt"></i>
+                        </div>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("head"))
+            {
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("List","Panel")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-retweet"></i>
+                        </div>
+                        <span>List of Requests</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("Report","Panel")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-poll"></i>
+                        </div>
+                        <span>Report</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("admin"))
+            {
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("cFacility","Admin")" class="sidebar-nav-link">
+                        <div>
+                            <i class="far fa-building"></i>
+                        </div>
+                        <span>Facility</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("cRequest","Admin")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-retweet"></i>
+                        </div>
+                        <span>Requests</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("cCategory","Admin")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <span>Category</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("List","Article")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <span>Article</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("cAccount","Admin")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <span>Account</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("cQandA","Admin")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <span>Questionnaire</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("cSeverity","Admin")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-exclamation"></i>
+                        </div>
+                        <span>Severity</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("cSearch","Admin")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <span>Search for user</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("List","Feedback")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <span>Feedback</span>
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("Comment","Article")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <span>Comment</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("head") || User.IsInRole("assigned"))
+            {
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("userInFacility","Panel")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <span>Users in facility</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("head"))
+            {
+                <li class="sidebar-nav-item">
+                    <a href="@Url.Action("searchRequest","Panel")" class="sidebar-nav-link">
+                        <div>
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <span>Search for Request</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+    <!-- End sidebar -->
+    <!-- Main content -->
+    <div class="wrapper">
+        @RenderBody()
+    </div>
+    <!-- End Main content -->
+    <script src="~/Scripts/index.js"></script>
+</body>
+</html>

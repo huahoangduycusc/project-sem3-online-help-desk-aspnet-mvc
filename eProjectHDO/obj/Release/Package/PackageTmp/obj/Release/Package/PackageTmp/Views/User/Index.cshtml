@@ -1,0 +1,118 @@
+﻿@model eProjectHDO.Models.User
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="background-black">
+    <div class="background-overlay"></div>
+    <div class="container">
+        <div class="background-title">
+            <h2>@Model.username</h2>
+            <p>
+                <a href="@Url.Action("Index", "Home")">Home</a> / <a href="#">Profile</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="profile-container">
+        <div class="avatar-profile">
+            <img src="/images/profile/@Model.avatar" alt="" title="@Model.username">
+        </div>
+        <table class="profile-table">
+            <tbody>
+                <tr>
+                    <td class="td-left">ID</td>
+                    <td class="td-right">@Model.username</td>
+                </tr>
+                <tr>
+                    <td class="td-left">Full Name</td>
+                    <td class="td-right">@Model.fullname</td>
+                </tr>
+                <tr>
+                    <td class="td-left">Gender</td>
+                    <td class="td-right">@if (Model.gender == false) { <span>Male</span> } else { <span>Female</span>}</td>
+                </tr>
+                <tr>
+                    <td class="td-left">Date of birth</td>
+                    <td class="td-right">@Model.birthday</td>
+                </tr>
+                <tr>
+                    <td class="td-left">Favourite</td>
+                    <td class="td-right">@Model.favorite</td>
+                </tr>
+                <tr>
+                    <td class="td-left">Phone</td>
+                    <td class="td-right">@Model.phone</td>
+                </tr>
+                <tr>
+                    <td class="td-left">Address</td>
+                    <td class="td-right">@Model.address</td>
+                </tr>
+                <tr>
+                    <td class="td-left">Joined</td>
+                    <td class="td-right">@Model.timeJoin</td>
+                </tr>
+                <tr>
+                    <td class="td-right" colspan="2">
+                        @if (User.IsInRole("admin") && Session["uid"] != null && (int)Session["uid"] != Model.UserId)
+                        {
+                            <a href="@Url.Action("Block","User",new {id=Model.UserId })" class="btn-default btn-green">
+                                @if (Model.status == 0)
+                                {
+                                    <span><i class="fas fa-lock"></i> Lock</span>
+                                }
+                                else
+                                {
+                                    <span><i class="fas fa-unlock"></i> Unlock</span>
+                                }
+                            </a>
+                        }
+                        @if (User.IsInRole("head") && Session["uid"] != null && (int)Session["uid"] != Model.UserId)
+                        {
+                            <a href="@Url.Action("Block","User",new {id=Model.UserId })" class="btn-default btn-green">
+                                @if (Model.status == 0)
+                                {
+                                    <span><i class="fas fa-lock"></i> Lock</span>
+                                }
+                                else
+                                {
+                                    <span><i class="fas fa-unlock"></i> Unlock</span>
+                                }
+                            </a>
+                        }
+                        @if (User.IsInRole("admin") && Session["uid"] != null && (int)Session["uid"] != Model.UserId)
+                        {
+                            <a href="@Url.Action("Roles","User",new {id=Model.UserId })" class="btn-default btn-green">
+                                <i class="fas fa-address-card"></i> Modify Roles
+                            </a>
+                        }
+
+                        @if (Session["uid"] != null && (int)Session["uid"] == Model.UserId)
+                        {
+                            <a href="@Url.Action("changePassword","User")" class="btn-default btn-green">
+                                <i class="fas fa-exchange-alt"></i> Change password
+                            </a>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        @if (Session["uid"] != null)
+        {
+            <div class="profile-center" style="text-align:center;">
+                <div class="btn-group">
+                    @if (User.IsInRole("admin") || Session["uid"] != null && (int)Session["uid"] == Model.UserId)
+                    {
+                        <a href="@Url.Action("Setting","User",new {id=Model.UserId })" class="btn-profile"><i class="fas fa-cog"></i> Setting</a>
+                    }
+                    @if (Session["uid"] != null && (int)Session["uid"] != Model.UserId)
+                    {
+                        <a href="@Url.Action("Chat","Mail",new {id=Model.UserId })" class="btn-profile"><i class="fas fa-envelope"></i> Message</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

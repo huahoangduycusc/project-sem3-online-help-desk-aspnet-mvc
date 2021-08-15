@@ -1,0 +1,136 @@
+﻿@model IPagedList<eProjectHDO.Models.Feedback>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_admin.cshtml";
+    int type = 0;
+    if (Request.QueryString["type"] == null)
+    {
+        type = 0;
+    }
+    else
+    {
+        type = Convert.ToInt32(Request.QueryString["type"]);
+    }
+}
+@using PagedList;
+@using PagedList.Mvc;
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<div class="panel-title"><h3>Feedback</h3></div>
+<div class="row">
+    <div class="col-6">
+        <div class="filter">
+            <span class="filter-span">Filter feedback</span>
+            <select name="filter" id="filter" class="form-sm-control">
+                <option value="">--Select--</option>
+                <option value="0">All</option>
+                <option value="1">Not seen</option>
+                <option value="2">Seen</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-12 col-m-12">
+        <div class="card">
+            <div class="card-header"><h3>List of feedbacks</h3></div>
+            <div class="card-content">
+                <table class="table-re">
+                    <tr>
+                        <th>Title</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Create at</th>
+                        <th>Operation</th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.title</td>
+                                <td><a href="mailto:@item.email">@item.email</a></td>
+                                <td>
+                                    @{
+                                        if (item.status == 0)
+                                        {
+                                            <span style="color:red">Not seen</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="color:green">Seen</span>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @item.created_at
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("View","Feedback",new {id=item.fbId })" data-id="@item.fbId" class="btn-circle bg-success"><i class="fas fa-eye"></i></a>
+                                    <a href="@Url.Action("Delete","Feedback",new {id=item.fbId })" class="btn-circle bg-danger" onclick="if (! confirm('Continue?')) { return false; }"><i class="fas fa-times"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("cAccount", "Admin", new { page, type = type }))
+    </div>
+</div>
+<div class="phanhoi-container">
+    <div class="phanhoi-form">
+        <div class="phanhoi-title">
+            <img src="~/images/feedback.png" alt="">
+        </div>
+        <div class="phanhoi-bg">
+            <h2 id="title">Title</h2>
+            <div class="phanhoi-body">
+                <div class="close-phanhoi">
+                    Close
+                </div>
+                <div class="phanhoi-author">
+                    <span>From</span> <a href="" id="email">email</a>
+                </div>
+                <div class="phanhoi-text" id="msg">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam, sequi rem officia sapiente incidunt
+                    asperiores, ducimus, magni necessitatibus est numquam facere reprehende
+                    rit eveniet illum itaque cumque saepe ratione blanditiis eius.
+                </div>
+                <p class="phanhoi-time" id="times">
+                    Semt 22, 2020
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("filter").onchange = function (event) {
+        let type = this.value;
+        window.location.href = '/Feedback/List?type=' + type;
+    };
+</script>
+<script>
+    var view_fb = document.querySelectorAll('.bg-success');
+    view_fb.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            var fb_id = item.getAttribute('data-id');
+            //alert(fb_id);
+            $.ajax({
+                url: '/Feedback/View',
+                type: 'get',
+                cache: false,
+                data: {
+                    id: fb_id
+                },
+                success: function (result) {
+                    $('#title').html(result.title);
+                    $('#email').html(result.email);
+                    $('#msg').html(result.msg);
+                    $('#times').html(result.dates);
+                    $('.phanhoi-container').addClass('actives-phanhoi');
+                },
+                error: function () {
+                    alert("There are something wrong, Duy ?");
+                }
+            });
+        });
+    });
+</script>

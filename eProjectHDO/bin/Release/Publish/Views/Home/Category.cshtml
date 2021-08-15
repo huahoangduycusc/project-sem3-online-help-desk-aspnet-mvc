@@ -1,0 +1,45 @@
+﻿@model IPagedList<eProjectHDO.Models.Article>
+@{
+    ViewBag.Title = "Category "+ViewBag.Category;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="background-black">
+    <div class="background-overlay"></div>
+    <div class="container">
+        <div class="background-title">
+            <h3>@ViewBag.Category</h3>
+            <p>
+                <a href="@Url.Action("Index","Home")">Home</a> / <a href="#">Category</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-4 col-m-6">
+                <div class="baiviet">
+                    <a href="@Url.Action("View","Article",new {id=item.ArticleId })">
+                        <div class="baiviet-img">
+                            <img src="~/images/thumbnail/@item.thumbnail" alt="">
+                        </div>
+                        <div class="baiviet-info">
+                            <h3>@item.title</h3>
+                            <p><i class="fas fa-calendar-alt"></i> @item.created_at</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row center">
+        @Html.PagedListPager(Model, page => Url.Action("Category", "Home", new { page }))
+    </div>
+    @if(Model.Count() == 0)
+    {
+        <div class="empty">There is no result !</div>
+    }
+</div>

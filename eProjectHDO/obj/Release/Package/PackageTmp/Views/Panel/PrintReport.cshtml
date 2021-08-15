@@ -1,0 +1,79 @@
+﻿@model IEnumerable<eProjectHDO.Models.RequestUser>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PrintReport</title>
+    <link rel="stylesheet" href="~/Content/admin.css" type="text/css">
+</head>
+<body>
+    <div class="row">
+        <div class="center"><h1>Statistics</h1></div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Request Title</th>
+                                <th>Facility</th>
+                                <th>Severity</th>
+                                <th>Requestor</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Assigned</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.requestTitle</td>
+                                    <td>@item.type</td>
+                                    <td><span class="severity">@item.severity</span></td>
+                                    <td><a href="@Url.Action("Index","User",new {id=item.userId })">@item.username</a></td>
+                                    <td>
+                                        <span class="dot">
+                                            @if (item.status == "Assigned" || item.status == "Unassigned")
+                                            {
+                                                <i class="bg-primary"></i>
+                                            }
+                                            @if (item.status == "Work in process" || item.status == "Need more info")
+                                            {
+                                                <i class="bg-warning"></i>
+                                            }
+                                            @if (item.status == "Resolved")
+                                            {
+                                                <i class="bg-success"></i>
+                                            }
+                                            @if (item.status == "Rejected")
+                                            {
+                                                <i class="bg-danger"></i>
+                                            }
+                                            @item.status
+                                        </span>
+                                    </td>
+                                    <td>@item.created_at</td>
+                                    <td>
+                                        @if (item.assigned == 0)
+                                        {
+                                            <span></span>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Index","User",new {id=item.assigned })">@item.assignedPerson</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

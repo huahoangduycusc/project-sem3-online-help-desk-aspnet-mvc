@@ -1,0 +1,45 @@
+﻿@model eProjectHDO.Models.User
+@{
+    ViewBag.Title = "Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="background-black">
+    <div class="background-overlay"></div>
+    <div class="container">
+        <div class="background-title">
+            <h2>Modify Roles</h2>
+            <p>
+                <a href="@Url.Action("Index","Home")">Home</a> / <a href="@Url.Action("Index","User",new {id=Model.UserId })">@Model.username</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="form-sm">
+            @using (Html.BeginForm())
+            {
+                <div class="form-field">
+                    @if (ViewBag.Msg != null)
+                    {
+                        <div class="success">@ViewBag.Msg</div>
+                    }
+                </div>
+                <div class="form-field">
+                    <b>Facility</b>
+                    @Html.DropDownListFor(m => m.facility, new SelectList((System.Collections.IEnumerable)TempData["facility"], "FacilityId", "FacilityName"), new { @class = "form-control" })
+                </div>
+                <div class="form-field">
+                   <b>Role</b>
+                    @Html.DropDownListFor(m => m.role, new SelectList((System.Collections.IEnumerable)TempData["role"], "RoleId", "RoleName"), new { @class = "form-control" })
+                </div>
+                <div class="form-field">
+                    <button type="submit" class="btn btn-green">Update</button>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <a href="@Url.Action("Index","User",new {id=Model.UserId })"><i class="fa fa-undo-alt"></i> Back</a>
+    </div>
+</div>

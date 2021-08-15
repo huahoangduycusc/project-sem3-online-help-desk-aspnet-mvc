@@ -1,0 +1,86 @@
+﻿@model IPagedList<eProjectHDO.Models.TypeOfFacility>
+@{
+    ViewBag.Title = "typeFacility";
+    Layout = "~/Views/Shared/_admin.cshtml";
+    int id = Convert.ToInt32(Url.RequestContext.RouteData.Values["id"]);
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="panel-title" style="margin-bottom:10px;"><h3>List of types</h3></div>
+@using (Html.BeginForm())
+{
+    if (ViewBag.Msg != null)
+    {
+        <div class="error">@ViewBag.Msg</div>
+    }
+    if (ViewBag.Success != null)
+    {
+        <div class="success">@ViewBag.Success</div>
+    }
+    if (Request.QueryString["conflict"] != null)
+    {
+        <div class="error center">You cannot delete this type of facility because it contains the relevant reference data</div>
+    }
+    <div class="row" style="margin-top:10px;">
+        <div class="col-4">
+            <input type="text" name="TypeName" class="form-control" placeholder="Type Name" required>
+        </div>
+        <div class="col-4">
+            <select name="Status" class="form-control">
+                <option value="0">Active</option>
+                <option value="1">Maintenance</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <button type="submit" class="btn btn-create">Create new</button>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-12 col-m-12">
+        <div class="card">
+            <div class="card-header"><h3>List of types</h3></div>
+            <div class="card-content">
+                <table class="table-re">
+                    <tr>
+                    <th>Type Name</th>
+                    <th>Status</th>
+                    <th>Operation</th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.TypeName
+                                </td>
+                                <td>
+                                    @if (item.Status == 0)
+                                    {
+                                        <span style="color:green;">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:red;">Maintenance</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("editType","Admin",new {id=item.TypeId,fid=id })" class="btn-circle bg-warning"><i class="fas fa-pen"></i></a>
+                                    <a href="@Url.Action("deleteType","Admin",new {id=item.TypeId,fid=id })" class="btn-circle bg-danger" onclick="if (! confirm('Continue?')) { return false; }"><i class="fas fa-times"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("typeFacility", "Admin", new { page, id = id }))
+        @if (Model.Count() == 0)
+        {
+            <div class="empty">There is no result !</div>
+        }
+        <a href="@Url.Action("cFacility")" class="back">Back to List</a>
+    </div>
+</div>
+
+

@@ -1,0 +1,251 @@
+﻿@model IPagedList<eProjectHDO.Models.RequestUser>
+
+@{
+    ViewBag.Title = "cRequest";
+    Layout = "~/Views/Shared/_admin.cshtml";
+    int facility = 0;
+
+    if (Request.QueryString["facility"] == null)
+    {
+        facility = 0;
+    }
+    else
+    {
+        facility = Convert.ToInt32(Request.QueryString["facility"]);
+    }
+}
+@using PagedList;
+@using PagedList.Mvc;
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<div class="row">
+    <div class="coso">
+        Request
+    </div>
+    @using (Html.BeginForm("PrintReport", "Admin", FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-4">
+                <div class="filter">
+                    <b>Type of facility</b>
+                    @if (TempData["facility"] != null)
+                    {
+                        @Html.DropDownList("facility", new SelectList((System.Collections.IEnumerable)TempData["facility"], "FacilityId", "FacilityName"), new { @class = "form-sm-control" })
+                    }
+                </div>
+            </div>
+            <!-- col 6-->
+            <div class="col-4">
+                <b>Facility</b>
+                @if (TempData["typeOfFacility"] != null)
+                {
+                    @Html.DropDownList("type", new SelectList((System.Collections.IEnumerable)TempData["typeOfFacility"], "TypeId", "TypeName"), new { @class = "form-sm-control" })
+                }
+            </div>
+            <div class="col-4">
+                From date: <input type="date" name="tu" id="tu" class="form-sm-control" required>
+            </div>
+            <div class="col-4">
+                To date : <input type="date" name="den" id="den" class="form-sm-control" required>
+            </div>
+            <div class="col-4">
+                <button type="button" class="btn btn-create" id="send">Submit</button>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-create bg-danger" id="print">Report</button>
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>List of requests</h3>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="card-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Facility</th>
+                            <th>Severity</th>
+                            <th>Requestor</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody id="result">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><a href="@Url.Action("See","Request",new {id=item.requestId })">@item.requestTitle</a></td>
+                                <td>@item.facility</td>
+                                <td>@item.type</td>
+                                <td><span class="severity">@item.severity</span></td>
+                                <td><a href="@Url.Action("Index","User",new {id=item.userId })">@item.username</a></td>
+                                <td>
+                                    <span class="dot">
+                                        @if (item.status == "Assigned" || item.status == "Unassigned")
+                                        {
+                                            <i class="bg-primary"></i>
+                                        }
+                                        @if (item.status == "Work in process" || item.status == "Need more info")
+                                        {
+                                            <i class="bg-warning"></i>
+                                        }
+                                        @if (item.status == "Resolved")
+                                        {
+                                            <i class="bg-success"></i>
+                                        }
+                                        @if (item.status == "Rejected")
+                                        {
+                                            <i class="bg-danger"></i>
+                                        }
+                                        @item.status
+                                    </span>
+                                </td>
+                                <td>@item.created_at</td>
+                                <td>
+                                    <a href="" class="btn-circle bg-success view" data-id="@item.requestId"><i class="fas fa-eye"></i></a>
+                                    <a href="@Url.Action("delRequest","Admin",new {id=item.requestId })" class="btn-circle bg-danger" data-as="@item.requestId" onclick="if (! confirm('Continue?')) { return false; }"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("cRequest", "Admin", new { page, facility = facility }))
+    </div>
+    <!-- end col -->
+</div>
+<div class="phanhoi-container">
+    <div class="phanhoi-form">
+        <div class="phanhoi-title">
+            <img src="~/images/request.png" alt="">
+        </div>
+        <div class="phanhoi-bg">
+            <h2><span id="title">Hua Hoang Duy</span> <span class="severity" id="severity">Medium</span></h2>
+            <div class="phanhoi-body">
+                <div class="phanhoi-author">
+                    <p>Assigned person: <span id="assigned">clanchangthanh</span></p>
+                    <p>Requestor: <span id="requestor">hoangduy</span></p>
+                </div>
+                <div class="phanhoi-more">
+                    <p>Type of facility: <span class="facility" id="facility1">text</span></p>
+                    <p>Facility: <span class="type" id="type1">Text</span></p>
+                    <p>Status: <span class="status" id="status">text</span></p>
+                </div>
+                <div class="phanhoi-text" id="description">
+                    Text
+                </div>
+                <p class="phanhoi-time" id="times">
+                    Semt 22, 2020
+                </p>
+            </div>
+            <div class="close-phanhoi"><i class="fas fa-times"></i></div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("facility").onchange = function (event) {
+        let faci = this.value;
+        //alert(faci);
+        $.ajax({
+            url: '/Request/getTypeofFacility',
+            type: 'get',
+            dataType: 'JSON',
+            cache: false,
+            data: {
+                id : faci
+            },
+            success: function (result) {
+                //alert(result);
+                var html = "";
+                $.each(result, function (index,value) {
+                    html += `<option value="${value.TypeId}">${value.TypeName}</option>`;
+                });
+                html += '<option value="0">All</option>';
+                document.querySelector('#type').innerHTML = html;
+            },
+            error: function () {
+                alert("Duy oi~, there is something wrong happend");
+            }
+        });
+    };
+</script>
+<script>
+    var btn = document.querySelector("#send");
+    btn.addEventListener('click', function () {
+        var faci = document.querySelector('#facility');
+        var type = document.querySelector('#type');
+        var tu = document.querySelector('#tu');
+        var den = document.querySelector('#den');
+        if (tu.value == "" || den.value == "") {
+            alert("Please, choose from date and to date");
+            return false;
+        }
+        $("#result").empty();
+        $("#result").html("<tr></tr><tr><td colspan=\"8\" style=\"text-align:center;\"><img src=\"https://www.ihrp.sg/wp-content/uploads/2019/06/giphy.gif\" style='width:150px'></td></tr>");
+        //alert("Từ " + from.value +"đến " + to.value);
+        $.ajax({
+            url: '/Admin/filterRequest',
+            type: 'get',
+            cache: false,
+            data: {
+                facility: faci.value,
+                type: type.value,
+                tu: tu.value,
+                den: den.value
+            },
+            success: function (data) {
+                //alert(data);
+                $("#result").empty();
+                $("#result").append(data);
+            }
+        });
+    });
+</script>
+<script>
+    var view_fb = document.querySelectorAll('.view');
+    view_fb.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            var fb_id = item.getAttribute('data-id');
+            //alert(fb_id);
+            $.ajax({
+                url: '/Panel/viewRequest',
+                type: 'get',
+                cache: false,
+                data: {
+                    id: fb_id
+                },
+                success: function (result) {
+                    $('#title').html(result.title);
+                    $('#description').html(result.description);
+                    $('#facility1').html(result.facility);
+                    $('#type1').html(result.type);
+                    $('#assigned').html(result.person);
+                    $('#requestor').html(result.username);
+                    $('#severity').html(result.severity);
+                    $('#status').html(result.status);
+                    $('#times').html(result.times);
+                    $('.phanhoi-container').addClass('actives-phanhoi');
+                },
+                error: function () {
+                    alert("There are something wrong, Duy ?");
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $html = '<option value="0">All</option>';
+        $('#facility').append($html);
+        $('#type').append($html);
+    });
+</script>

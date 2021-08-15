@@ -1,0 +1,41 @@
+﻿@model IPagedList<eProjectHDO.Models.Notification>
+@{
+    ViewBag.Title = "Notification";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="background-black">
+    <div class="background-overlay"></div>
+    <div class="container">
+        <div class="background-title">
+            <h2>Notification</h2>
+            <p>
+                <a href="@Url.Action("Index","Home")">Home</a> / <a href="#">Notification</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <h2 class="title-highlight">Notification</h2>
+            <div class="list">
+                @foreach (var item in Model)
+                {
+                    <div class="list-item-alt">
+                        @Html.Raw(item.message)
+                        <p><i class="fas fa-calendar-alt"></i> @item.created_at</p>
+                    </div>
+                }
+                <!-- end list item -->
+            </div>
+            <!-- end list -->
+            @Html.PagedListPager(Model, page => Url.Action("Notification", "User", new { page }))
+            @if (Model.Count() == 0)
+            {
+                <div class="empty">There is no result !</div>
+            }
+        </div>
+    </div>
+</div>

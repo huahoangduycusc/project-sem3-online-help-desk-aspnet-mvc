@@ -1,0 +1,133 @@
+﻿@model IPagedList<eProjectHDO.Models.RequestUser>
+@{
+    ViewBag.Title = "Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int type = 0;
+    if (Request.QueryString["type"] == null)
+    {
+        type = 0;
+    }
+    else
+    {
+        type = Convert.ToInt32(Request.QueryString["type"]);
+    }
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="background-black">
+    <div class="background-overlay"></div>
+    <div class="container">
+        <div class="background-title">
+            <h2>My Request</h2>
+            <p>
+                <a href="@Url.Action("Index","Home")">Home</a> / <a href="#">My Request</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-6 col-sm-6" style="margin-top:10px">
+            <a href="@Url.Action("Create","Request")" class="btn-create">Create request</a>
+        </div>
+        <div class="col-6 col-sm-6">
+            <div class="filter">
+                <p>Filter your requests</p>
+                <select name="filter" id="filter" class="form-control-select">
+                    <option value="">Select</option>
+                    <option value="0">All</option>
+                    <option value="1">Open</option>
+                    <option value="2">Close</option>
+                    <option value="5">Work-in-progress</option>
+                    <option value="7">Rejected</option>
+                    <option value="8">Resolved</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-m-12">
+            @{ 
+                if(Request.QueryString["close"] != null)
+                {
+                    <div class="error">You cannot close this request because it is being processed</div>
+                }
+            }
+            <div class="card">
+                <div class="card-header"><h3>My list of requests</h3></div>
+                <div class="card-content">
+                    <table class="table-re">
+                        <tr>
+                        <th>Title</th>
+                        <th>Facility</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Created date</th>
+                        <th>Operation</th>
+                        </tr>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (item.block == 1)
+                                        {
+                                            <span class="btn-circle danger-color"><i class="fas fa-lock"></i></span>
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                            <a href="@Url.Action("View","Request",new {id=item.requestId })">@item.requestTitle</a>
+                                        </td>
+                                    <td>@item.facility</td>
+                                    <td>@item.type</td>
+                                    <td>
+                                        <span class="dot">
+                                            @if (item.status == "Pending" || item.status == "Assigned" || item.status == "Unassigned")
+                                            {
+                                                <i class="primary-color"></i>
+                                            }
+                                            @if (item.status == "Work in process" || item.status == "Need more info")
+                                            {
+                                                <i class="warning-color"></i>
+                                            }
+                                            @if (item.status == "Resolved")
+                                            {
+                                                <i class="success-color"></i>
+                                            }
+                                            @if (item.status == "Rejected")
+                                            {
+                                                <i class="danger-color"></i>
+                                            }
+                                            @item.status
+                                        </span>
+                                    </td>
+                                    <td>@item.created_at</td>
+                                    <td>
+                                        <a href="@Url.Action("View","Request",new {id=item.requestId })" class="btn-circle warning-color"><i class="fas fa-eye"></i></a>
+                                        @if (item.block == 0)
+                                        {
+                                            <a href="@Url.Action("Close","Request",new { id=item.requestId })" class="btn-circle danger-color"><i class="fas fa-lock"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Open","Request",new { id=item.requestId })" class="btn-circle success-color"><i class="fas fa-unlock"></i></a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @Html.PagedListPager(Model, page => Url.Action("Requests", "User", new { page,type=type }))
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("filter").onchange = function (event) {
+        let type = this.value;
+        window.location.href = '/User/Requests?type=' + type;
+    };
+</script>

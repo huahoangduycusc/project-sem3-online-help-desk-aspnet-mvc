@@ -1,0 +1,52 @@
+﻿@model IPagedList<eProjectHDO.Models.baocaoCmt>
+
+@{
+    ViewBag.Title = "Comment";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+@using PagedList;
+@using PagedList.Mvc;
+<div class="panel-title"><h3>List of Comment</h3></div>
+<div class="row">
+    <div class="col-12 col-m-12">
+        <div class="card">
+            <div class="card-header"><h3>List of Comment</h3></div>
+            <div class="card-content">
+                <table class="table-re">
+                    <tr>
+                    <th>Sender</th>
+                    <th>Article</th>
+                    <th>Message</th>
+                    <th>Created at</th>
+                    <th>Operation</th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Index","User",new {id=item.user_id })">@item.nickname</a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("View","Article",new {id=item.aid })">@item.title</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.msg)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.created_at)
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("xoaComment","Article",new {id=item.cid })" onclick="if (! confirm('Continue?')) { return false; }" class="btn-circle bg-danger"><i class="fas fa-times"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("Comment", "Article", new { page }))
+    </div>
+</div>
+
+

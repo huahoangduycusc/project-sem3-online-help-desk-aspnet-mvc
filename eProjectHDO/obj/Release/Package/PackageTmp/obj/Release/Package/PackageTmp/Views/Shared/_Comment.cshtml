@@ -1,0 +1,29 @@
+﻿@model IEnumerable<eProjectHDO.Models.binhluan>
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div class="chat-post">
+            <div class="chat-post-img">
+                <a href=""><img src="~/images/profile/@Url.Content(item.img)" alt="@item.name"></a>
+            </div>
+            <div class="chat-post-content">
+                <div class="user-chat">
+                    <a href="@Url.Action("Index","User",new {id=@item.uid })"><b style="color:#013481;font-size:11pt">@item.name</b></a>
+                    <p class="times">@item.day</p>
+                    <p class="control">
+                        @if (User.IsInRole("admin") || Session["uid"] != null && Session["uid"].ToString() == @item.uid.ToString())
+                        {
+                            <a href="@Url.Action("DelComment","Article",new {id=@item.id })" title="Xóa"><i class="fas fa-times"></i></a>
+                        }
+                    </p>
+                </div>
+                <div class="user-comment">
+                    @item.msg
+                </div>
+            </div>
+            <!-- chat post content -->
+        </div>
+        <!-- chat post div item -->
+    }
+}

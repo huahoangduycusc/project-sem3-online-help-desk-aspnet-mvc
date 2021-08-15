@@ -1,0 +1,61 @@
+﻿@model IPagedList<eProjectHDO.Models.Facility>
+@{
+    ViewBag.Title = "cFacility";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+@using PagedList;
+@using PagedList.Mvc;
+
+<div class="panel-title"><h3>List of facilities</h3></div>
+<div class="col-6 col-sm-6" style="margin-top:10px">
+    <a href="@Url.Action("createFacility","Admin")" class="button"><i class="fas fa-plus"></i> Create new</a>
+</div>
+<div class="row">
+    <div class="col-12 col-m-12">
+        @if (Request.QueryString["conflict"] != null)
+        {
+        <div class="error center">You cannot delete this facility because it contains the relevant reference data</div>
+        }
+        <div class="card">
+            <div class="card-header"><h3>List of facilities</h3></div>
+            <div class="card-content">
+                <table class="table-re">
+                    <tr>
+                    <th>Facility Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Operation</th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.FacilityName
+                                </td>
+                                <td>@item.Description</td>
+                                <td>
+                                    @if (item.status == 0)
+                                    {
+                                        <span style="color:green;">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:red;">Maintenance</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("typeFacility","Admin",new {id=item.FacilityId })" class="btn-circle bg-success"><i class="fas fa-eye"></i></a>
+                                    <a href="@Url.Action("editFacility","Admin",new {id=item.FacilityId })" class="btn-circle bg-warning"><i class="fas fa-pen"></i></a>
+                                    <a href="@Url.Action("userInFacility","Admin",new {id=item.FacilityId })" class="btn-circle bg-primary"><i class="fas fa-user-friends"></i></a>
+                                    <a href="@Url.Action("deleteFacility","Admin",new {id=item.FacilityId })" class="btn-circle bg-danger" onclick="if (! confirm('Continue?')) { return false; }"><i class="fas fa-times"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("cFacility", "Admin", new { page }))
+    </div>
+</div>
